@@ -1,0 +1,1275 @@
+{
+  "generated": "2026-09-02T15:24:29",
+  "root": "CONTENT/KNOWLEDGE",
+  "tree": [
+    {
+      "name": "ACTIVE_DIRECTORY",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY",
+      "children": [
+        {
+          "name": "ATTACKS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS",
+          "children": [
+            {
+              "name": "adcs_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/adcs_attacks.md"
+            },
+            {
+              "name": "attack_cheatsheet.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/attack_cheatsheet.md"
+            },
+            {
+              "name": "credential_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/credential_attacks.md"
+            },
+            {
+              "name": "delegation_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/delegation_attacks.md"
+            },
+            {
+              "name": "gpo_abuse.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/gpo_abuse.md"
+            },
+            {
+              "name": "lateral_movement.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/lateral_movement.md"
+            },
+            {
+              "name": "post_exploitation.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/post_exploitation.md"
+            },
+            {
+              "name": "trust_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/trust_attacks.md"
+            }
+          ]
+        },
+        {
+          "name": "ENUMERATION",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ENUMERATION",
+          "children": [
+            {
+              "name": "bloodhound_enumeration.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ENUMERATION/bloodhound_enumeration.md"
+            },
+            {
+              "name": "ldap_enumeration.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ENUMERATION/ldap_enumeration.md"
+            },
+            {
+              "name": "rpc_enumeration.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ENUMERATION/rpc_enumeration.md"
+            },
+            {
+              "name": "smb_enumeration.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ENUMERATION/smb_enumeration.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ENUMERATION",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/ENUMERATION",
+      "children": [
+        {
+          "name": "SERVICES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES",
+          "children": [
+            {
+              "name": "dns.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/dns.md"
+            },
+            {
+              "name": "ftp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/ftp.md"
+            },
+            {
+              "name": "imap_pop3.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/imap_pop3.md"
+            },
+            {
+              "name": "ipmi.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/ipmi.md"
+            },
+            {
+              "name": "mssql.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/mssql.md"
+            },
+            {
+              "name": "mysql.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/mysql.md"
+            },
+            {
+              "name": "nfs.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/nfs.md"
+            },
+            {
+              "name": "oracle_tns.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/oracle_tns.md"
+            },
+            {
+              "name": "rdp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/rdp.md"
+            },
+            {
+              "name": "rsync.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/rsync.md"
+            },
+            {
+              "name": "smb.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/smb.md"
+            },
+            {
+              "name": "smtp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/smtp.md"
+            },
+            {
+              "name": "snmp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/snmp.md"
+            },
+            {
+              "name": "ssh.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/ssh.md"
+            },
+            {
+              "name": "winrm.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/winrm.md"
+            },
+            {
+              "name": "wmi.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/wmi.md"
+            }
+          ]
+        },
+        {
+          "name": "TOOLS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS",
+          "children": [
+            {
+              "name": "crt.sh.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/crt.sh.md"
+            },
+            {
+              "name": "curl.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/curl.md"
+            },
+            {
+              "name": "dig.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/dig.md"
+            },
+            {
+              "name": "ffuf.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/ffuf.md"
+            },
+            {
+              "name": "finalrecon.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/finalrecon.md"
+            },
+            {
+              "name": "gobuster.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/gobuster.md"
+            },
+            {
+              "name": "google_dorks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/google_dorks.md"
+            },
+            {
+              "name": "netcat.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/netcat.md"
+            },
+            {
+              "name": "nikto.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/nikto.md"
+            },
+            {
+              "name": "nmap.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/nmap.md"
+            },
+            {
+              "name": "nmap_builder.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/nmap_builder.md"
+            },
+            {
+              "name": "passive_recon.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/passive_recon.md"
+            },
+            {
+              "name": "reconspider.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/reconspider.md"
+            },
+            {
+              "name": "shodan.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/shodan.md"
+            },
+            {
+              "name": "tcpdump.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/tcpdump.md"
+            },
+            {
+              "name": "theHarvester.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/theHarvester.md"
+            },
+            {
+              "name": "wafw00f.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/wafw00f.md"
+            },
+            {
+              "name": "whois.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/TOOLS/whois.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FILE_TRANSFER",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER",
+      "children": [
+        {
+          "name": "CODE",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/CODE",
+          "children": [
+            {
+              "name": "code_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/CODE/code_file_transfer.md"
+            }
+          ]
+        },
+        {
+          "name": "LINUX",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LINUX",
+          "children": [
+            {
+              "name": "linux_file_tranfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LINUX/linux_file_tranfer.md"
+            }
+          ]
+        },
+        {
+          "name": "LOLBINS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LOLBINS",
+          "children": [
+            {
+              "name": "lolbins_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LOLBINS/lolbins_file_transfer.md"
+            }
+          ]
+        },
+        {
+          "name": "MISC",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/MISC",
+          "children": [
+            {
+              "name": "misc_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/MISC/misc_file_transfer.md"
+            }
+          ]
+        },
+        {
+          "name": "WINDOWS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/WINDOWS",
+          "children": [
+            {
+              "name": "prepping_linux.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/WINDOWS/prepping_linux.md"
+            },
+            {
+              "name": "windows_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/WINDOWS/windows_file_transfer.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LIBRARY",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/LIBRARY",
+      "children": [
+        {
+          "name": "ENUMERATION",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LIBRARY/ENUMERATION",
+          "children": [
+            {
+              "name": "concepts.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/ENUMERATION/concepts.md"
+            }
+          ]
+        },
+        {
+          "name": "KNOWLEDGE_BASES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES",
+          "children": [
+            {
+              "name": "CPTS-CHEATSHEETS",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS",
+              "children": [
+                {
+                  "name": "File Transfers - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/File Transfers - cheatsheet.pdf"
+                },
+                {
+                  "name": "Footprinting.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Footprinting.pdf"
+                },
+                {
+                  "name": "Getting Started.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Getting Started.pdf"
+                },
+                {
+                  "name": "Network Enumeration with Nmap.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Network Enumeration with Nmap.pdf"
+                }
+              ]
+            },
+            {
+              "name": "htb-writeups",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups",
+              "children": [
+                {
+                  "name": "_includes",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/_includes",
+                  "children": []
+                },
+                {
+                  "name": "assets",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/assets",
+                  "children": [
+                    {
+                      "name": "css",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/assets/css",
+                      "children": []
+                    },
+                    {
+                      "name": "images",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/assets/images",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "challenges",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges",
+                  "children": [
+                    {
+                      "name": "ai-ml",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/ai-ml",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/ai-ml/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "blockchain",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/blockchain",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/blockchain/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "crypto",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/crypto",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/crypto/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "forensics",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/forensics",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/forensics/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "hardware",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/hardware",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/hardware/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "misc",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/misc",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/misc/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "mobile",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/mobile",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/mobile/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "osint",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/osint",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/osint/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "pwn",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/pwn",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/pwn/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "reversing",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/reversing",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/reversing/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "stego",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/stego",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/stego/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "web",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/web",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/web/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/challenges/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "ctf-events",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/ctf-events",
+                  "children": [
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/ctf-events/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "endgames",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/endgames",
+                  "children": [
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/endgames/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "fortresses",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/fortresses",
+                  "children": [
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/fortresses/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "machines",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines",
+                  "children": [
+                    {
+                      "name": "easy",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy",
+                      "children": [
+                        {
+                          "name": "Code",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy/Code",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy/Code/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Facts",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy/Facts",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy/Facts/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Kobold",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy/Kobold",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy/Kobold/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/easy/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "hard",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard",
+                      "children": [
+                        {
+                          "name": "AirTouch",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/AirTouch",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/AirTouch/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Eighteen",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/Eighteen",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/Eighteen/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "PingPong",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/PingPong",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/PingPong/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Pirate",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/Pirate",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/Pirate/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/hard/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "insane",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane",
+                      "children": [
+                        {
+                          "name": "Cobblestone",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Cobblestone",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Cobblestone/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "MonitorsFour",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/MonitorsFour",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/MonitorsFour/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Pterodactyl",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Pterodactyl",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Pterodactyl/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Sink",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Sink",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Sink/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Sorcery",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Sorcery",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/Sorcery/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/insane/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "medium",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium",
+                      "children": [
+                        {
+                          "name": "Helix",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium/Helix",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium/Helix/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Interpreter",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium/Interpreter",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium/Interpreter/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "VariaType",
+                          "type": "dir",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium/VariaType",
+                          "children": [
+                            {
+                              "name": "README.md",
+                              "type": "file",
+                              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium/VariaType/README.md"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/medium/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/machines/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "prolabs",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/prolabs",
+                  "children": [
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/prolabs/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "resources",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources",
+                  "children": [
+                    {
+                      "name": "cert-prep",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cert-prep",
+                      "children": [
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cert-prep/README.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "cheatsheets",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets",
+                      "children": [
+                        {
+                          "name": "active-directory.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/active-directory.md"
+                        },
+                        {
+                          "name": "file-transfers.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/file-transfers.md"
+                        },
+                        {
+                          "name": "linux-enumeration.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/linux-enumeration.md"
+                        },
+                        {
+                          "name": "password-attacks.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/password-attacks.md"
+                        },
+                        {
+                          "name": "pivoting.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/pivoting.md"
+                        },
+                        {
+                          "name": "privesc-linux.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/privesc-linux.md"
+                        },
+                        {
+                          "name": "privesc-windows.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/privesc-windows.md"
+                        },
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/README.md"
+                        },
+                        {
+                          "name": "reverse-shells.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/reverse-shells.md"
+                        },
+                        {
+                          "name": "web-application.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/web-application.md"
+                        },
+                        {
+                          "name": "windows-enumeration.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/cheatsheets/windows-enumeration.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "methodology",
+                      "type": "dir",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/methodology",
+                      "children": [
+                        {
+                          "name": "machine-approach.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/methodology/machine-approach.md"
+                        },
+                        {
+                          "name": "note-taking.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/methodology/note-taking.md"
+                        },
+                        {
+                          "name": "README.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/methodology/README.md"
+                        },
+                        {
+                          "name": "report-writing.md",
+                          "type": "file",
+                          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/methodology/report-writing.md"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/resources/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "sherlocks",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/sherlocks",
+                  "children": [
+                    {
+                      "name": "README.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/sherlocks/README.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "templates",
+                  "type": "dir",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/templates",
+                  "children": [
+                    {
+                      "name": "challenge-template.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/templates/challenge-template.md"
+                    },
+                    {
+                      "name": "machine-template.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/templates/machine-template.md"
+                    },
+                    {
+                      "name": "prolab-template.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/templates/prolab-template.md"
+                    },
+                    {
+                      "name": "sherlock-template.md",
+                      "type": "file",
+                      "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/templates/sherlock-template.md"
+                    }
+                  ]
+                },
+                {
+                  "name": "0xdf-htb-machines.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/0xdf-htb-machines.md"
+                },
+                {
+                  "name": "attack-paths.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/attack-paths.md"
+                },
+                {
+                  "name": "CONTRIBUTING.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/CONTRIBUTING.md"
+                },
+                {
+                  "name": "index.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/index.md"
+                },
+                {
+                  "name": "ippsec-video-index.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/ippsec-video-index.md"
+                },
+                {
+                  "name": "README.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/README.md"
+                },
+                {
+                  "name": "skill-trees.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups/skill-trees.md"
+                }
+              ]
+            },
+            {
+              "name": " websites.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/ websites.md"
+            }
+          ]
+        },
+        {
+          "name": "SERVICES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES",
+          "children": [
+            {
+              "name": "dns.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/dns.md"
+            },
+            {
+              "name": "ftp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/ftp.md"
+            },
+            {
+              "name": "imap_pop3.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/imap_pop3.md"
+            },
+            {
+              "name": "ipmi.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/ipmi.md"
+            },
+            {
+              "name": "mssql.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/mssql.md"
+            },
+            {
+              "name": "mysql.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/mysql.md"
+            },
+            {
+              "name": "nfs.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/nfs.md"
+            },
+            {
+              "name": "oracle_tns.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/oracle_tns.md"
+            },
+            {
+              "name": "rdp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/rdp.md"
+            },
+            {
+              "name": "rsync.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/rsync.md"
+            },
+            {
+              "name": "smb.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/smb.md"
+            },
+            {
+              "name": "smtp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/smtp.md"
+            },
+            {
+              "name": "snmp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/snmp.md"
+            },
+            {
+              "name": "ssh.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/ssh.md"
+            },
+            {
+              "name": "winrm.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/winrm.md"
+            },
+            {
+              "name": "wmi.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/wmi.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/OS",
+      "children": [
+        {
+          "name": "LINUX",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/OS/LINUX",
+          "children": [
+            {
+              "name": "BASH",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/OS/LINUX/BASH",
+              "children": []
+            },
+            {
+              "name": "PRIVESC",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/OS/LINUX/PRIVESC",
+              "children": [
+                {
+                  "name": "checkllist.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/PRIVESC/checkllist.md"
+                }
+              ]
+            },
+            {
+              "name": "UTILITIES",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES",
+              "children": [
+                {
+                  "name": "base64.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/base64.md"
+                },
+                {
+                  "name": "find.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/find.md"
+                },
+                {
+                  "name": "grep.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/grep.md"
+                },
+                {
+                  "name": "hashing.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/hashing.md"
+                },
+                {
+                  "name": "wget.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/wget.md"
+                },
+                {
+                  "name": "wordlists.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/wordlists.md"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "WINDOWS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/OS/WINDOWS",
+          "children": [
+            {
+              "name": "POWERSHELL",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/POWERSHELL",
+              "children": []
+            },
+            {
+              "name": "PRIVESC",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/PRIVESC",
+              "children": []
+            },
+            {
+              "name": "UTILITIES",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/UTILITIES",
+              "children": [
+                {
+                  "name": "base64.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/UTILITIES/base64.md"
+                },
+                {
+                  "name": "hashing.md",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/UTILITIES/hashing.md"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SHELLS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/SHELLS",
+      "children": [
+        {
+          "name": "reverse_shells.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SHELLS/reverse_shells.md"
+        }
+      ]
+    }
+  ]
+}
