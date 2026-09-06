@@ -4,10 +4,10 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project overview
 
-**Elluminos** is a dual-interface penetration testing reference tool. It presents a structured knowledge base of attack techniques, enumeration cheatsheets, and tool references through two complementary interfaces:
+**crack-source** is a dual-interface penetration testing reference tool. It presents a structured knowledge base of attack techniques, enumeration cheatsheets, and tool references through two complementary interfaces:
 
-- **`elluminos-web/`** — browser-based UI, zero dependencies, served statically
-- **`elluminos-tui/`** — terminal UI written in Go, runs natively in the operator's shell
+- **`crack-source-web/`** — browser-based UI, zero dependencies, served statically
+- **`crack-source/`** — terminal UI written in Go, runs natively in the operator's shell
 
 Both interfaces consume the same content from `CONTENT/KNOWLEDGE/` and the same manifest from `CONTENT/MANIFEST/manifest.json`. They are peers, not one being a subset of the other.
 
@@ -64,28 +64,28 @@ Used inside `.md` files — parsed by both the web UI and the TUI's token system
 
 ---
 
-## Web UI (`elluminos-web/`)
+## Web UI (`crack-source-web/`)
 
 ### Running locally
 
 ```bash
 # From repo root:
 python3 -m http.server 8080
-# Open: http://localhost:8080/elluminos-web/
+# Open: http://localhost:8080/crack-source-web/
 ```
 
-The server must be started from the **repo root**, not from `elluminos-web/`. The app fetches `web.config` to discover the manifest path, then resolves content paths relative to the repo root via `REPO_ROOT=..`.
+The server must be started from the **repo root**, not from `crack-source-web/`. The app fetches `web.config` to discover the manifest path, then resolves content paths relative to the repo root via `REPO_ROOT=..`.
 
 Direct `file://` open fails — browsers block `fetch()` for local files.
 
-### Configuration (`elluminos-web/web.config`)
+### Configuration (`crack-source-web/web.config`)
 
 ```
 MANIFEST_PATH=CONTENT/MANIFEST/manifest.json
 REPO_ROOT=..
 ```
 
-`app.js` fetches this file at startup and uses the values to construct all content URLs. Paths are relative: `MANIFEST_PATH` is relative to the repo root; `REPO_ROOT` is relative to the `elluminos-web/` directory (i.e., `..` points up to the repo root).
+`app.js` fetches this file at startup and uses the values to construct all content URLs. Paths are relative: `MANIFEST_PATH` is relative to the repo root; `REPO_ROOT` is relative to the `crack-source-web/` directory (i.e., `..` points up to the repo root).
 
 ### Architecture
 
@@ -124,15 +124,15 @@ Both support full-text search across file names and file contents.
 
 ---
 
-## TUI (`elluminos-tui/`)
+## TUI (`crack-source/`)
 
 ### Building and running
 
 ```bash
-cd elluminos-tui && go build && ./pt-tui
+cd elluminos-tui && go build && ./crack-source
 ```
 
-### Configuration (`elluminos-tui/tui.config`)
+### Configuration (`crack-source/tui.config`)
 
 ```
 MANIFEST_PATH=/absolute/path/to/CONTENT/MANIFEST/manifest.json
@@ -162,7 +162,7 @@ Root `package main` file layout:
 | `render.go` | Block renderer, lipgloss styles, `splitTips`, `headings` |
 | `content.go` | File loading, token substitution, `runCmd`, `isCdCmd`/`resolveCd` |
 | `search.go` | Sidebar search, content index, `filterEntries` |
-| `profile.go` | Token profile persistence (`~/.elluminos/profiles/`) |
+| `profile.go` | Token profile persistence (`~/.crack-source/profiles/`) |
 | `editor.go` | `editorState`, `dirEntry`, all buffer and dir operations |
 | `editor_view.go` | Editor sidebar and content pane rendering |
 | `editor_update.go` | Editor key handlers: `handleModeToggle`, `handleEditorKey`, `handleEditorSidebarKey`, `handleEditorContentKey`, `editorScrollUpdate` |
