@@ -75,6 +75,24 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.editor.reloadDir()
 		}
 
+	case cmdChunkMsg:
+		m.cmdScrollback += msg.text
+		m.cmdPromptAtTop = false
+		m.cmdUpdateViewport()
+		return m, func() tea.Msg { return readChunk(msg.r, msg.proc) }
+
+	case cmdDoneMsg:
+		if msg.text != "" {
+			m.cmdScrollback += msg.text
+		}
+		if msg.err != nil {
+			m.cmdScrollback += "[exit: " + msg.err.Error() + "]\n"
+		}
+		m.cmdUpdateViewport()
+		if m.mode == modeEditor {
+			m.editor.reloadDir()
+		}
+
 	case interactiveExecDoneMsg:
 		if msg.err != nil {
 			m.cmdScrollback += "[exit: " + msg.err.Error() + "]\n"

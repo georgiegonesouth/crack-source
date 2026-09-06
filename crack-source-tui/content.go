@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -31,6 +32,17 @@ type renderedMsg struct {
 }
 
 type cmdOutputMsg string
+
+type cmdChunkMsg struct {
+	text string
+	r    io.ReadCloser
+	proc *exec.Cmd
+}
+
+type cmdDoneMsg struct {
+	text string
+	err  error
+}
 
 type interactiveExecDoneMsg struct{ err error }
 
@@ -123,16 +135,36 @@ func (m Model) rerenderFile() tea.Cmd {
 	}
 }
 
-func runCmd(c, dir string) tea.Cmd {
+func startStreamCmd(c, dir string) tea.Cmd {
 	return func() tea.Msg {
 		cmd := exec.Command("sh", "-c", c)
 		cmd.Dir = dir
-		out, err := cmd.CombinedOutput()
+		pr, pw, err := os.Pipe()
 		if err != nil {
-			return cmdOutputMsg(string(out) + "\n[exit: " + err.Error() + "]")
+			return cmdOutputMsg("pipe error: " + err.Error())
 		}
-		return cmdOutputMsg(string(out))
+		cmd.Stdout = pw
+		cmd.Stderr = pw
+		if err := cmd.Start(); err != nil {
+			pr.Close()
+			pw.Close()
+			return cmdOutputMsg("error: " + err.Error())
+		}
+		pw.Close()
+		return readChunk(pr, cmd)
 	}
+}
+
+func readChunk(r io.ReadCloser, cmd *exec.Cmd) tea.Msg {
+	buf := make([]byte, 4096)
+	n, err := r.Read(buf)
+	text := string(buf[:n])
+	if err != nil {
+		r.Close()
+		cmdErr := cmd.Wait()
+		return cmdDoneMsg{text: text, err: cmdErr}
+	}
+	return cmdChunkMsg{text: text, r: r, proc: cmd}
 }
 
 func isCdCmd(c string) bool {

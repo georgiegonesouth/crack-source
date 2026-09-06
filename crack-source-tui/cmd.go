@@ -207,7 +207,7 @@ func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				return interactiveExecDoneMsg{err: err}
 			})
 		}
-		return m, runCmd(trimmed, m.workDir)
+		return m, startStreamCmd(trimmed, m.workDir)
 
 	case key.Matches(msg, k.Backspace):
 		m.cmdDeleteBackward()

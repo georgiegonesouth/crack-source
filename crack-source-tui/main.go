@@ -41,14 +41,6 @@ func loadConfig(binaryDir string) (tuiConfig, error) {
 	return cfg, nil
 }
 
-func keybindingsPath() string {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return ""
-	}
-	return filepath.Join(home, ".config", "crack-source", "keybindings.yaml")
-}
-
 func main() {
 	binaryDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
@@ -62,13 +54,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	km, err := LoadKeyMap(keybindingsPath())
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "warning: keybindings: %v — using defaults\n", err)
-		km = DefaultKeyMap
-	}
-
-	p := tea.NewProgram(newModel(cfg, km), tea.WithAltScreen(), tea.WithMouseCellMotion())
+	p := tea.NewProgram(newModel(cfg), tea.WithAltScreen(), tea.WithMouseCellMotion())
 	if _, err := p.Run(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)

@@ -69,9 +69,9 @@ type Model struct {
 	contentIndex     map[string]string
 }
 
-func newModel(cfg tuiConfig, km KeyMap) Model {
+func newModel(cfg tuiConfig) Model {
 	files := manifest.LoadFiles(cfg.ManifestPath)
-	p := loadProfile("default")
+	p := loadProfile()
 	cwd, _ := os.Getwd()
 
 	var tis [7]textinput.Model
@@ -92,7 +92,7 @@ func newModel(cfg tuiConfig, km KeyMap) Model {
 
 	return Model{
 		cfg:              cfg,
-		keys:             km,
+		keys:             DefaultKeyMap,
 		profile:          p,
 		files:            files,
 		sidebarCollapsed: initSidebarCollapsed(files),

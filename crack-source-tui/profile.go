@@ -7,18 +7,17 @@ import (
 )
 
 type profile struct {
-	Name   string            `json:"name"`
 	Tokens map[string]string `json:"tokens"`
 }
 
-func profilePath(name string) string {
+func profilePath() string {
 	home, _ := os.UserHomeDir()
-	return filepath.Join(home, ".crack-source", "profiles", name+".json")
+	return filepath.Join(home, ".crack-source", "profiles", "default.json")
 }
 
-func loadProfile(name string) profile {
-	p := profile{Name: name, Tokens: map[string]string{}}
-	data, err := os.ReadFile(profilePath(name))
+func loadProfile() profile {
+	p := profile{Tokens: map[string]string{}}
+	data, err := os.ReadFile(profilePath())
 	if err != nil {
 		return p
 	}
@@ -37,7 +36,7 @@ func (m *Model) commitTokens() {
 }
 
 func saveProfile(p profile) {
-	path := profilePath(p.Name)
+	path := profilePath()
 	if err := os.MkdirAll(filepath.Dir(path), 0700); err != nil {
 		return
 	}
