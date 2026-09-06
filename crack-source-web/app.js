@@ -968,7 +968,7 @@ function showWelcome() {
     <div class="welcome">
       <div class="neon-sign">
         <div class="neon-sign-line"></div>
-        <div class="welcome-title">ELLUMINOS</div>
+        <div class="welcome-title">CRACK-SOURCE</div>
         <div class="neon-sign-line"></div>
       </div>
     </div>`;
