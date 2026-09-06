@@ -1,0 +1,72 @@
+# Elluminos TUI keybindings
+# Each entry is: action_name: ["key1", "key2", ...]
+# Any action you omit keeps its built-in default.
+# Place your edited copy at ~/.config/crack-source/keybindings.yaml
+
+# ── Application ────────────────────────────────────────────────────────────────
+quit: ["ctrl+c", "q"]
+mode_toggle: ["ctrl+e"]          # toggle notebook ↔ editor mode
+
+# ── Pane focus ─────────────────────────────────────────────────────────────────
+focus_cmd: ["C"]
+focus_tokens: ["t"]
+focus_search: ["'"]              # also toggles search nav mode back to input
+focus_sidebar: ["h"]
+focus_content: ["tab", "l"]
+
+# ── Cmd pane height ────────────────────────────────────────────────────────────
+resize_cmd_snap_min: ["ctrl+shift+down"]
+resize_cmd_snap_max: ["ctrl+shift+up"]
+resize_cmd_smaller: ["shift+down"]
+resize_cmd_larger: ["shift+up"]
+
+# ── Shared primitives (text editing, cursor movement) ──────────────────────────
+# These are used across paneCmd, code-edit mode, and editor content pane.
+escape: ["escape", "esc"]
+enter: ["enter"]
+tab: ["tab"]
+shift_tab: ["shift+tab"]
+backspace: ["backspace", "ctrl+h"]   # ctrl+h added for Linux terminals
+delete: ["delete"]
+left: ["left"]
+right: ["right"]
+up: ["up"]
+down: ["down"]
+home: ["home", "ctrl+a"]
+end: ["end"]
+word_left: ["alt+left"]
+word_right: ["alt+right"]
+word_delete: ["ctrl+w"]
+
+# ── Notebook sidebar (also used in search pane nav mode) ───────────────────────
+sidebar_down: ["k", "down"]
+sidebar_up: ["j", "up"]
+sidebar_jump_down: ["K"]           # skip to next folder
+sidebar_jump_up: ["J"]             # skip to previous folder
+
+# ── Notebook content pane ──────────────────────────────────────────────────────
+content_next_section: ["right", "k"]
+content_prev_section: ["left", "j"]
+content_scroll_up: ["l", "up"]
+content_scroll_down: ["ö", "down"]
+content_next_code: ["f"]
+content_prev_code: ["d"]
+content_run_code: ["x"]            # drops selected code block to cmd pane
+content_use_token: ["u"]           # apply token-section value
+
+# ── Cmd pane actions ───────────────────────────────────────────────────────────
+# These are separate from the shared primitives above so you can rebind
+# history-up independently of the generic "up" key used elsewhere.
+cmd_run: ["enter"]
+cmd_clear: ["ctrl+l"]
+cmd_history_up: ["up"]
+cmd_history_down: ["down"]
+cmd_copy_line: ["ctrl+shift+c"]
+cmd_paste: ["ctrl+shift+v"]
+
+# ── Editor mode ────────────────────────────────────────────────────────────────
+# Note: editor sidebar j/k directions are inverted vs notebook sidebar.
+editor_sidebar_up: ["up", "j"]
+editor_sidebar_down: ["down", "k"]
+editor_sidebar_open: ["enter", "l"]
+editor_save: ["ctrl+s"]
