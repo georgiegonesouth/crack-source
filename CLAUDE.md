@@ -11,6 +11,8 @@ This file provides guidance to Claude Code when working with this repository.
 
 Both interfaces consume the same content from `CONTENT/KNOWLEDGE/` and the same manifest from `CONTENT/MANIFEST/manifest.json`. They are peers, not one being a subset of the other.
 
+The TUI is the primary development focus — it is being built toward full feature parity with the web UI plus terminal-native extras (shell drop, embedded terminal, session log, etc.).
+
 ## Content structure
 
 ```
@@ -53,7 +55,7 @@ Page-local tokens use lowercase: `<database>`, `<share>`, `<user>`, etc.
 
 ### Markdown comment directives
 
-Used inside `.md` files to enhance the web UI's token substitution system:
+Used inside `.md` files — parsed by both the web UI and the TUI's token system:
 
 - `<!-- token-options:TOKEN\noption1\noption2 -->` — render "Use" buttons for predefined values
 - `<!-- token-table:TOKEN -->` — table cells become "Use" buttons
@@ -143,8 +145,9 @@ The TUI reads files directly from the filesystem (no HTTP), so absolute paths ar
 
 Built with Charmbracelet (bubbletea, glamour, lipgloss). Two sub-packages under `internal/`:
 
-- `internal/manifest/` — manifest loading; exports `Entry`, `LoadFiles`
-- `internal/parser/` — markdown parsing and text utilities; exports `Block`, `ParsedDoc`, `ParseDoc`, strip/extract helpers
+- `internal/manifest/manifest.go` — manifest loading; exports `Entry`, `LoadFiles`
+- `internal/parser/blocks.go` — exports `Block`, `BlockKind`, `ParsedDoc`, `ParseDoc`, constants
+- `internal/parser/cleanup.go` — exports `ReToken`, `StripFrontMatter`, `StripDirectives`, `StripANSI`, `ExtractLocalTokens`, `ExtractTokenOptionValue`, `InsertCursorMark`, `PrevWord`, `NextWord`
 
 Root `package main` file layout:
 
@@ -162,7 +165,7 @@ Root `package main` file layout:
 | `profile.go` | Token profile persistence (`~/.elluminos/profiles/`) |
 | `editor.go` | `editorState`, `dirEntry`, all buffer and dir operations |
 | `editor_view.go` | Editor sidebar and content pane rendering |
-| `editor_update.go` | Editor key handlers, `handleModeToggle`, `editorScrollUpdate` |
+| `editor_update.go` | Editor key handlers: `handleModeToggle`, `handleEditorKey`, `handleEditorSidebarKey`, `handleEditorContentKey`, `editorScrollUpdate` |
 | `cmd.go` | Cmd pane shell: `cmdPromptPrefix`, `cmdUpdateViewport`, `cmdClear`, `handleCmdKey` |
 
 ### App modes
@@ -170,14 +173,14 @@ Root `package main` file layout:
 Toggle with `ctrl+e` from any pane (including paneCmd).
 
 **Notebook mode** (`modeNotebook`, default) — manifest-based reference notebook:
-- Collapsible sidebar nav; `'` opens full-text search
-- Content pane: collapsible H2/H3, code block nav (`d`/`f`), manual edit (`enter`), token cycling (`tab`)
+- Collapsible sidebar nav; `k`/`j` scroll, `K`/`J` jump folder; `'` opens full-text search (two-phase: type to filter, `enter` → nav mode; `'` re-focuses input from nav mode; any printable key exits nav mode)
+- Content pane: collapsible H2/H3, heading nav `←`/`→`; code block nav `d`/`f`, `esc` deselects, `x` drops block to cmd pane, `u` applies token-section value; manual edit `enter` (`alt+←/→`, `ctrl+a/e`; `enter` exits, `esc` discards); `tab`/`shift+tab` cycle local tokens within selected block
 - Token bar: global tokens `TARGET_IP`, `PORT`, `LHOST`, `LPORT`, `USER`, `PASSWORD`, `DOMAIN`; page-local tokens per file
 - Tips panel auto-extracted from `## Tips` section of each file
 
 **Editor mode** (`modeEditor`) — filesystem file manager + text editor:
-- Sidebar shows current directory; `k`/`j` navigate, `enter`/`l` opens
-- Content pane is a line-buffer editor: arrow keys, insert/delete, `ctrl+s` save, `esc` → sidebar
+- Sidebar: `k`/`j` or arrows navigate; `enter`/`l` opens dir or file; `tab`/`right` jumps to editor pane when file is open; `ctrl+e` toggles back to notebook
+- Content pane: arrow keys move cursor; `home`/`ctrl+a` line start, `end` line end; printable runes insert; `backspace`/`delete` delete; `enter` splits line; `tab` inserts 4 spaces; `ctrl+s` save; `esc` → sidebar; line numbers + block cursor; horizontal scroll when line exceeds pane width
 - Token bar hidden in this mode
 
 ### Persistent working directory (`workDir`)
@@ -192,7 +195,7 @@ Toggle with `ctrl+e` from any pane (including paneCmd).
 Terminal-like shell panel implemented in `cmd.go`. Key Model fields:
 - `cmdScrollback string` — accumulated history (all past prompts + outputs)
 - `cmdCurrentLine string` / `cmdCursorPos int` — current input with rune-level editing
-- `cmdVp viewport.Model` — scrollable viewport; content = `cmdScrollback + prompt + cursor`
+- `cmdVp viewport.Model` — scrollable viewport; content = `cmdScrollback + prompt + cursor`; prompt format is `user@host dir %` (green user, cyan dir, white %)
 - `cmdPromptAtTop bool` — set by `ctrl+l`/`clear`; appends `Height-1` trailing `\n` so `GotoBottom()` places prompt at top
 - `cmdClearLine int` — scrollback line count at last clear; `YOffset` is floored here to hide pre-clear history
 
