@@ -70,6 +70,18 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.cmdScrollback += string(msg) + "\n"
 		m.cmdPromptAtTop = false
 		m.cmdUpdateViewport()
+		if m.mode == modeEditor {
+			m.editor.reloadDir()
+		}
+
+	case interactiveExecDoneMsg:
+		if msg.err != nil {
+			m.cmdScrollback += "[exit: " + msg.err.Error() + "]\n"
+		}
+		m.cmdUpdateViewport()
+		if m.mode == modeEditor {
+			m.editor.reloadDir()
+		}
 
 	case tea.KeyMsg:
 		if msg.String() == "ctrl+e" {

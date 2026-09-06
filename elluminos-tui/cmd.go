@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"os/exec"
 	"os/user"
 	"strings"
 
@@ -107,6 +108,26 @@ func (m *Model) cmdClear() {
 	m.cmdUpdateViewport()
 }
 
+var interactiveCmds = map[string]bool{
+	"vim": true, "vi": true, "nvim": true,
+	"nano": true, "emacs": true, "pico": true,
+	"less": true, "more": true, "man": true,
+	"top": true, "htop": true, "btop": true,
+	"ssh": true, "ftp": true, "telnet": true,
+}
+
+func isInteractiveCmd(line string) bool {
+	fields := strings.Fields(line)
+	if len(fields) == 0 {
+		return false
+	}
+	name := fields[0]
+	if i := strings.LastIndex(name, "/"); i >= 0 {
+		name = name[i+1:]
+	}
+	return interactiveCmds[name]
+}
+
 func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	switch msg.String() {
 	case "ctrl+c":
@@ -174,9 +195,16 @@ func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			return m, nil
 		}
 		m.cmdUpdateViewport()
+		if isInteractiveCmd(trimmed) {
+			c := exec.Command("sh", "-c", trimmed)
+			c.Dir = m.workDir
+			return m, tea.ExecProcess(c, func(err error) tea.Msg {
+				return interactiveExecDoneMsg{err: err}
+			})
+		}
 		return m, runCmd(trimmed, m.workDir)
 
-	case "backspace":
+	case "backspace", "ctrl+h":
 		m.cmdDeleteBackward()
 		m.cmdUpdateViewport()
 

@@ -140,7 +140,7 @@ func handleEditorContentKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case "enter":
 		e.insertNewline()
 		m.editorScrollUpdate()
-	case "backspace":
+	case "backspace", "ctrl+h":
 		e.deleteBackward()
 		m.editorScrollUpdate()
 	case "delete":

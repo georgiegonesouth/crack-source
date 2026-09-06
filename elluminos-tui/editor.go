@@ -62,6 +62,25 @@ func (e *editorState) loadDir(path string) {
 	e.dirOffset = 0
 }
 
+func (e *editorState) reloadDir() {
+	if e.dir == "" {
+		return
+	}
+	name := ""
+	if e.dirCursor < len(e.dirEntries) {
+		name = e.dirEntries[e.dirCursor].name
+	}
+	e.loadDir(e.dir)
+	if name != "" {
+		for i, de := range e.dirEntries {
+			if de.name == name {
+				e.dirCursor = i
+				return
+			}
+		}
+	}
+}
+
 func (e *editorState) openFile(path string) {
 	data, err := os.ReadFile(path)
 	if err != nil {

@@ -32,6 +32,8 @@ type renderedMsg struct {
 
 type cmdOutputMsg string
 
+type interactiveExecDoneMsg struct{ err error }
+
 func (m Model) openFile(path string) tea.Cmd {
 	repoRoot := m.cfg.RepoRoot
 	tis := m.tokenInputs
