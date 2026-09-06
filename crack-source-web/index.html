@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GGS</title>
+
+  <!-- Highlight.js theme (dark) -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Fixed target bar ───────────────────────────────── -->
+  <div id="header">
+    <span class="logo">GGS</span>
+
+    <div class="input-group">
+      <label for="input_TARGET_IP">Target</label>
+      <input id="input_TARGET_IP" type="text" placeholder="10.10.10.x" autocomplete="off" spellcheck="false" />
+    </div>
+
+    <div class="input-group">
+      <label for="input_PORT">Port</label>
+      <input id="input_PORT" type="text" placeholder="443" autocomplete="off" spellcheck="false" style="width:80px" />
+    </div>
+
+    <div class="input-group">
+      <label for="input_LHOST">LHOST</label>
+      <input id="input_LHOST" type="text" placeholder="10.10.14.x" autocomplete="off" spellcheck="false" />
+    </div>
+
+    <div class="input-group">
+      <label for="input_LPORT">LPORT</label>
+      <input id="input_LPORT" type="text" placeholder="4444" autocomplete="off" spellcheck="false" style="width:80px" />
+    </div>
+    <button id="library-btn" title="Library">Library</button>
+  </div>
+
+  <!-- ── Library panel ─────────────────────────────────── -->
+  <div id="library-panel" hidden>
+    <div id="library-panel-header">
+      <span>LIBRARY</span>
+      <button id="library-close" title="Close">✕</button>
+    </div>
+    <div id="library-search-wrap">
+      <input id="library-search" type="search" placeholder="Filter library…" autocomplete="off" />
+    </div>
+    <div id="library-nav-wrap"></div>
+  </div>
+
+  <!-- ── App layout ─────────────────────────────────────── -->
+  <div id="app">
+
+    <div id="sidebar">
+      <div id="search-wrap">
+        <input id="search" type="search" placeholder="Filter files…" autocomplete="off" />
+      </div>
+      <div id="nav-tree-wrap"></div>
+    </div>
+
+    <div id="content"></div>
+
+  </div>
+
+  <!-- marked.js (v4 stable) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+
+  <!-- Highlight.js core + common languages -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
