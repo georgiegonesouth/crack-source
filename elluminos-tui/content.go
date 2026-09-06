@@ -121,13 +121,42 @@ func (m Model) rerenderFile() tea.Cmd {
 	}
 }
 
-func runCmd(c string) tea.Cmd {
+func runCmd(c, dir string) tea.Cmd {
 	return func() tea.Msg {
-		out, err := exec.Command("sh", "-c", c).CombinedOutput()
+		cmd := exec.Command("sh", "-c", c)
+		cmd.Dir = dir
+		out, err := cmd.CombinedOutput()
 		if err != nil {
 			return cmdOutputMsg(string(out) + "\n[exit: " + err.Error() + "]")
 		}
 		return cmdOutputMsg(string(out))
+	}
+}
+
+func isCdCmd(c string) bool {
+	return c == "cd" || strings.HasPrefix(c, "cd ") || strings.HasPrefix(c, "cd\t")
+}
+
+func resolveCd(arg, workDir string) (string, bool) {
+	switch arg {
+	case "", "~":
+		home, err := os.UserHomeDir()
+		if err != nil {
+			return "", false
+		}
+		return home, true
+	default:
+		var target string
+		if filepath.IsAbs(arg) {
+			target = filepath.Clean(arg)
+		} else {
+			target = filepath.Clean(filepath.Join(workDir, arg))
+		}
+		info, err := os.Stat(target)
+		if err != nil || !info.IsDir() {
+			return "", false
+		}
+		return target, true
 	}
 }
 

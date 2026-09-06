@@ -124,15 +124,6 @@ Both support full-text search across file names and file contents.
 
 ## TUI (`elluminos-tui/`)
 
-### Current state
-
-Built with Charmbracelet (bubbletea, glamour, lipgloss). Implements:
-
-- Collapsible sidebar navigation from the same manifest
-- Markdown rendering via glamour with token substitution
-- Global token input bar (`TARGET_IP`, `PORT`, `LHOST`, `LPORT`)
-- Inline command pane: type a shell command, capture and display its output within the TUI
-
 ### Building and running
 
 ```bash
@@ -148,23 +139,72 @@ REPO_ROOT=/absolute/path/to/repo
 
 The TUI reads files directly from the filesystem (no HTTP), so absolute paths are required here. `REPO_ROOT` is joined with manifest entry paths to locate content files.
 
-### Target feature set (parity + terminal-native extras)
+### Architecture
 
-The TUI is intended to reach full feature parity with the web UI and go beyond it with capabilities that only make sense in a terminal context:
+Built with Charmbracelet (bubbletea, glamour, lipgloss). Two sub-packages under `internal/`:
 
-**Parity with web UI:**
-- Full sidebar nav with search/filter
-- Token substitution (global + page-local)
-- All markdown comment directives (`token-options`, `token-table`, `token-section`, `token-exclude`)
-- Tips panel (rendered separately from main content)
-- Collapsible H2/H3 sections
+- `internal/manifest/` — manifest loading; exports `Entry`, `LoadFiles`
+- `internal/parser/` — markdown parsing and text utilities; exports `Block`, `ParsedDoc`, `ParseDoc`, strip/extract helpers
 
-**Terminal-native features:**
-- **Shell drop** — execute any code block or substituted command directly in the system shell (via pty), with output streaming back into the TUI; no manual copy-paste
-- **Embedded terminal** — a full interactive shell pane within the TUI for running tools, with the ability to switch between the reference pane and the shell without leaving the application
-- **Session log** — append timestamped commands and outputs to a per-session log file automatically
-- **Note taking** — inline editor for attaching operator notes to any cheatsheet file (stored separately from content, never modifying source files)
-- **Engagement log** — structured logging of findings, commands run, and timestamps exportable to markdown
+Root `package main` file layout:
+
+| File | Responsibility |
+|---|---|
+| `main.go` | Entry point, config loading; `tea.WithMouseCellMotion()` enabled |
+| `model_core.go` | `Model` struct, `newModel`, `Init` |
+| `model_types.go` | All types and constants (`pane`, `appMode`, `tokenKeys`, layout consts) |
+| `model_helpers.go` | Computed properties on `Model` (`bodyH`, `contentW`, etc.) |
+| `update.go` | Main key/message handler (`Update`); `tea.MouseMsg` for cmd pane scroll |
+| `view.go` | Notebook-mode render functions |
+| `render.go` | Block renderer, lipgloss styles, `splitTips`, `headings` |
+| `content.go` | File loading, token substitution, `runCmd`, `isCdCmd`/`resolveCd` |
+| `search.go` | Sidebar search, content index, `filterEntries` |
+| `profile.go` | Token profile persistence (`~/.elluminos/profiles/`) |
+| `editor.go` | `editorState`, `dirEntry`, all buffer and dir operations |
+| `editor_view.go` | Editor sidebar and content pane rendering |
+| `editor_update.go` | Editor key handlers, `handleModeToggle`, `editorScrollUpdate` |
+| `cmd.go` | Cmd pane shell: `cmdPromptPrefix`, `cmdUpdateViewport`, `cmdClear`, `handleCmdKey` |
+
+### App modes
+
+Toggle with `ctrl+e` from any pane (including paneCmd).
+
+**Notebook mode** (`modeNotebook`, default) — manifest-based reference notebook:
+- Collapsible sidebar nav; `'` opens full-text search
+- Content pane: collapsible H2/H3, code block nav (`d`/`f`), manual edit (`enter`), token cycling (`tab`)
+- Token bar: global tokens `TARGET_IP`, `PORT`, `LHOST`, `LPORT`, `USER`, `PASSWORD`, `DOMAIN`; page-local tokens per file
+- Tips panel auto-extracted from `## Tips` section of each file
+
+**Editor mode** (`modeEditor`) — filesystem file manager + text editor:
+- Sidebar shows current directory; `k`/`j` navigate, `enter`/`l` opens
+- Content pane is a line-buffer editor: arrow keys, insert/delete, `ctrl+s` save, `esc` → sidebar
+- Token bar hidden in this mode
+
+### Persistent working directory (`workDir`)
+
+`workDir string` on `Model` is the shared working directory for both modes:
+- All shell commands run with `cmd.Dir = workDir`
+- `cd` in the cmd pane is intercepted — updates `workDir` (and reloads editor sidebar if in editor mode)
+- Navigating into a directory in the editor sidebar updates `workDir`
+
+### Cmd pane (both modes)
+
+Terminal-like shell panel implemented in `cmd.go`. Key Model fields:
+- `cmdScrollback string` — accumulated history (all past prompts + outputs)
+- `cmdCurrentLine string` / `cmdCursorPos int` — current input with rune-level editing
+- `cmdVp viewport.Model` — scrollable viewport; content = `cmdScrollback + prompt + cursor`
+- `cmdPromptAtTop bool` — set by `ctrl+l`/`clear`; appends `Height-1` trailing `\n` so `GotoBottom()` places prompt at top
+- `cmdClearLine int` — scrollback line count at last clear; `YOffset` is floored here to hide pre-clear history
+
+`cmdUpdateViewport()` always calls `GotoBottom()` then enforces `YOffset >= cmdClearLine`. Entering a command clears `cmdPromptAtTop`, returning to normal bottom-anchored flow.
+
+**Key bindings:**
+- `C` — focus from any pane; `esc` — return to content pane
+- `enter` — run command; `cd` intercepted; `clear`/`reset`/`ctrl+l` — visual clear
+- `ctrl+shift+c`/`ctrl+shift+v` — clipboard copy/paste
+- `up`/`down` — history cycle; `alt+←/→`, `ctrl+w` — word navigation/delete
+- `shift+up`/`shift+down` — resize; `ctrl+shift+up`/`ctrl+shift+down` — snap max/min
+- Mouse wheel scrolls scrollback when paneCmd is focused
 
 ---
 

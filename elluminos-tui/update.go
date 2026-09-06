@@ -1,8 +1,6 @@
 package main
 
 import (
-	"strings"
-
 	"pt-tui/internal/parser"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -18,9 +16,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.height = msg.Height
 		m.vp.Width = m.contentW() - 2
 		m.vp.Height = m.bodyH() - 2
-		m.cmdInput.Width = max(10, m.width-14)
+		m.cmdVp.Width = m.width - 4
+		m.cmdVp.Height = max(1, m.cmdH()-2)
+		m.cmdUpdateViewport()
 		if m.rawFile != "" {
 			cmds = append(cmds, m.rerenderFile())
+		}
+		if m.mode == modeEditor {
+			m.editorScrollUpdate()
 		}
 
 	case fileLoadedMsg:
@@ -54,17 +57,37 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.vp.SetContent(msg.content)
 		m.scrollToHeading()
 
+	case tea.MouseMsg:
+		if m.focus == paneCmd {
+			if msg.Button == tea.MouseButtonWheelUp {
+				m.cmdVp.LineUp(3)
+			} else if msg.Button == tea.MouseButtonWheelDown {
+				m.cmdVp.LineDown(3)
+			}
+		}
+
 	case cmdOutputMsg:
-		m.output = string(msg)
+		m.cmdScrollback += string(msg) + "\n"
+		m.cmdPromptAtTop = false
+		m.cmdUpdateViewport()
 
 	case tea.KeyMsg:
+		if msg.String() == "ctrl+e" {
+			return handleModeToggle(m)
+		}
+		if m.mode == modeEditor && (m.focus == paneSidebar || m.focus == paneContent) {
+			return handleEditorKey(m, msg)
+		}
+
 		switch msg.String() {
 		case "ctrl+shift+down":
 			m.cmdHeight = 10
 			m.vp.Height = m.bodyH() - 2
+			m.cmdVp.Height = max(1, m.cmdH()-2)
 		case "ctrl+shift+up":
 			m.cmdHeight = m.height * 2 / 3
 			m.vp.Height = m.bodyH() - 2
+			m.cmdVp.Height = max(1, m.cmdH()-2)
 		}
 
 		switch m.focus {
@@ -231,7 +254,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.tokenInputs[m.tokenFocus].Focus()
 			case "C":
 				m.focus = paneCmd
-				cmds = append(cmds, m.cmdInput.Focus())
 			default:
 				if len(msg.Runes) == 1 && (msg.Runes[0] == 'K' || msg.Runes[0] == 'J') {
 					isK := msg.Runes[0] == 'K'
@@ -360,7 +382,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.tokenInputs[m.tokenFocus].Focus()
 			case "C":
 				m.focus = paneCmd
-				cmds = append(cmds, m.cmdInput.Focus())
 			case "right", "k":
 				hs := headings(m.doc)
 				if m.headingIdx < len(hs)-1 {
@@ -436,9 +457,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					if execText == "" {
 						execText = parser.StripANSI(m.visibleCodes[m.codeIdx].Text)
 					}
-					m.cmdInput.SetValue(execText)
+					m.cmdCurrentLine = execText
+					m.cmdCursorPos = len([]rune(execText))
+					m.cmdPromptAtTop = false
+					m.cmdUpdateViewport()
 					m.focus = paneCmd
-					cmds = append(cmds, m.cmdInput.Focus())
 				}
 			case "tab":
 				if m.codeNavActive && m.codeIdx < len(m.visibleCodes) {
@@ -492,53 +515,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case paneCmd:
-			switch msg.String() {
-			case "ctrl+c":
-				return m, tea.Quit
-			case "shift+down":
-				m.cmdHeight = max(3, m.cmdHeight-1)
-				m.vp.Height = m.bodyH() - 2
-			case "shift+up":
-				m.cmdHeight = min(m.height*2/3, m.cmdHeight+1)
-				m.vp.Height = m.bodyH() - 2
-			case "ctrl+shift+down":
-				m.cmdHeight = 10
-				m.vp.Height = m.bodyH() - 2
-			case "ctrl+shift+up":
-				m.cmdHeight = m.height * 2 / 3
-				m.vp.Height = m.bodyH() - 2
-			case "escape", "esc":
-				m.cmdInput.Blur()
-				m.focus = paneContent
-			case "enter":
-				c := strings.TrimSpace(m.cmdInput.Value())
-				if c != "" {
-					if len(m.cmdHistory) == 0 || m.cmdHistory[len(m.cmdHistory)-1] != c {
-						m.cmdHistory = append(m.cmdHistory, c)
-					}
-					m.cmdHistIdx = len(m.cmdHistory)
-					m.cmdInput.SetValue("")
-					cmds = append(cmds, runCmd(c))
-				}
-			case "up":
-				if m.cmdHistIdx > 0 {
-					m.cmdHistIdx--
-					m.cmdInput.SetValue(m.cmdHistory[m.cmdHistIdx])
-				}
-			case "down":
-				if m.cmdHistIdx < len(m.cmdHistory) {
-					m.cmdHistIdx++
-					if m.cmdHistIdx == len(m.cmdHistory) {
-						m.cmdInput.SetValue("")
-					} else {
-						m.cmdInput.SetValue(m.cmdHistory[m.cmdHistIdx])
-					}
-				}
-			default:
-				var cmd tea.Cmd
-				m.cmdInput, cmd = m.cmdInput.Update(msg)
-				cmds = append(cmds, cmd)
-			}
+			return handleCmdKey(m, msg)
 		}
 	}
 

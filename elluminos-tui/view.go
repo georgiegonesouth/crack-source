@@ -13,8 +13,6 @@ var (
 	styleDim      = lipgloss.NewStyle().Foreground(lipgloss.Color("8"))
 	styleSelected = lipgloss.NewStyle().Background(lipgloss.Color("4")).Foreground(lipgloss.Color("15"))
 	styleHeader   = lipgloss.NewStyle().Background(lipgloss.Color("0")).Foreground(lipgloss.Color("12")).Bold(true).Padding(0, 1)
-	styleCmd      = lipgloss.NewStyle().Border(lipgloss.NormalBorder()).BorderForeground(lipgloss.Color("3")).Padding(0, 1)
-	styleOutput   = lipgloss.NewStyle().Foreground(lipgloss.Color("2"))
 )
 
 func (m Model) View() string {
@@ -22,16 +20,25 @@ func (m Model) View() string {
 		return "loading..."
 	}
 
-	header := styleHeader.Width(m.width).Render("PT Notes  [/] search [Tab] focus  [t] tokens  [ctrl+r] cmd  [q] quit")
-	tokenBar := m.renderTokenBar()
+	var headerText string
+	if m.mode == modeEditor {
+		headerText = "PT Notes  editor  [ctrl+e] notebook  [C] cmd  [ctrl+s] save  [q] quit"
+	} else {
+		headerText = "PT Notes  [/] search  [t] tokens  [C] cmd  [ctrl+e] editor  [q] quit"
+	}
+	header := styleHeader.Width(m.width).Render(headerText)
 	sidebar := m.renderSidebar()
 	content := m.renderContent()
 	body := lipgloss.JoinHorizontal(lipgloss.Top, sidebar, content)
-	if m.hasTips() {
+	if m.mode == modeNotebook && m.hasTips() {
 		body = lipgloss.JoinHorizontal(lipgloss.Top, sidebar, content, m.renderTips())
 	}
 	cmdPane := m.renderCmd()
 
+	if m.mode == modeEditor {
+		return lipgloss.JoinVertical(lipgloss.Left, header, body, cmdPane)
+	}
+	tokenBar := m.renderTokenBar()
 	return lipgloss.JoinVertical(lipgloss.Left, header, tokenBar, body, cmdPane)
 }
 
@@ -78,6 +85,9 @@ func (m Model) renderTokenBar() string {
 }
 
 func (m Model) renderSidebar() string {
+	if m.mode == modeEditor {
+		return m.renderEditorSidebar()
+	}
 	h := m.bodyH()
 	w := sidebarWidth
 
@@ -169,6 +179,9 @@ func (m Model) renderSidebar() string {
 }
 
 func (m Model) renderContent() string {
+	if m.mode == modeEditor {
+		return m.renderEditorContent()
+	}
 	h := m.bodyH()
 	w := m.contentW()
 	borderColor := lipgloss.Color("8")
@@ -243,23 +256,17 @@ func (m Model) renderTips() string {
 func (m Model) renderCmd() string {
 	h := m.cmdH()
 	w := m.width
-
-	focusIndicator := styleDim.Render("ctrl+r")
+	borderColor := lipgloss.Color("8")
 	if m.focus == paneCmd {
-		focusIndicator = styleActive.Render("● cmd")
+		borderColor = lipgloss.Color("12")
 	}
-
-	outLines := strings.Split(m.output, "\n")
-	maxOut := h - 3
-	if len(outLines) > maxOut {
-		outLines = outLines[len(outLines)-maxOut:]
-	}
-	outputStr := styleOutput.Render(strings.Join(outLines, "\n"))
-
-	inner := lipgloss.JoinVertical(lipgloss.Left,
-		lipgloss.JoinHorizontal(lipgloss.Center, focusIndicator, "  ", m.cmdInput.View()),
-		outputStr,
-	)
-
-	return styleCmd.Width(w - 2).Height(h - 2).Render(inner)
+	m.cmdVp.Width = w - 4
+	m.cmdVp.Height = max(1, h-2)
+	return lipgloss.NewStyle().
+		Border(lipgloss.NormalBorder()).
+		BorderForeground(borderColor).
+		Padding(0, 1).
+		Width(w - 2).
+		Height(h - 2).
+		Render(m.cmdVp.View())
 }
