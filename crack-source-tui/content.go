@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"crack-source/internal/parser"
 
@@ -33,6 +34,11 @@ type renderedMsg struct {
 
 type cmdOutputMsg string
 
+type cmdStartedMsg struct {
+	proc *exec.Cmd
+	r    io.ReadCloser
+}
+
 type cmdChunkMsg struct {
 	text string
 	r    io.ReadCloser
@@ -43,6 +49,8 @@ type cmdDoneMsg struct {
 	text string
 	err  error
 }
+
+type ctrlCTimeoutMsg struct{}
 
 type interactiveExecDoneMsg struct{ err error }
 
@@ -151,7 +159,14 @@ func startStreamCmd(c, dir string) tea.Cmd {
 			return cmdOutputMsg("error: " + err.Error())
 		}
 		pw.Close()
-		return readChunk(pr, cmd)
+		return cmdStartedMsg{proc: cmd, r: pr}
+	}
+}
+
+func ctrlCTimeout() tea.Cmd {
+	return func() tea.Msg {
+		time.Sleep(5 * time.Second)
+		return ctrlCTimeoutMsg{}
 	}
 }
 

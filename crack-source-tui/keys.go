@@ -74,7 +74,7 @@ type KeyMap struct {
 }
 
 var DefaultKeyMap = KeyMap{
-	Quit:       key.NewBinding(key.WithKeys("ctrl+c", "q")),
+	Quit:       key.NewBinding(key.WithKeys("q")),
 	ModeToggle: key.NewBinding(key.WithKeys("ctrl+e")),
 
 	FocusCmd:     key.NewBinding(key.WithKeys("C")),

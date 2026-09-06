@@ -1,6 +1,8 @@
 package main
 
 import (
+	"syscall"
+
 	"crack-source/internal/parser"
 
 	"github.com/charmbracelet/bubbles/key"
@@ -75,6 +77,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.editor.reloadDir()
 		}
 
+	case cmdStartedMsg:
+		m.runningProc = msg.proc
+		return m, func() tea.Msg { return readChunk(msg.r, msg.proc) }
+
 	case cmdChunkMsg:
 		m.cmdScrollback += msg.text
 		m.cmdPromptAtTop = false
@@ -82,6 +88,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, func() tea.Msg { return readChunk(msg.r, msg.proc) }
 
 	case cmdDoneMsg:
+		m.runningProc = nil
 		if msg.text != "" {
 			m.cmdScrollback += msg.text
 		}
@@ -93,6 +100,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.editor.reloadDir()
 		}
 
+	case ctrlCTimeoutMsg:
+		m.ctrlCPending = false
+
 	case interactiveExecDoneMsg:
 		if msg.err != nil {
 			m.cmdScrollback += "[exit: " + msg.err.Error() + "]\n"
@@ -103,6 +113,21 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	case tea.KeyMsg:
+		if msg.Type == tea.KeyCtrlC {
+			if m.runningProc != nil {
+				m.runningProc.Process.Signal(syscall.SIGINT)
+				return m, nil
+			}
+			if m.ctrlCPending {
+				return m, tea.Quit
+			}
+			m.ctrlCPending = true
+			m.cmdScrollback += "\n[press Ctrl+C again to exit]\n"
+			m.cmdUpdateViewport()
+			return m, ctrlCTimeout()
+		}
+		m.ctrlCPending = false
+
 		// ModeToggle fires globally before any pane routing so it always works,
 		// including when paneContent is in codeEditMode.
 		if key.Matches(msg, m.keys.ModeToggle) {

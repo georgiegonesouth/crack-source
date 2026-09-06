@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"os/exec"
 
 	"crack-source/internal/manifest"
 	"crack-source/internal/parser"
@@ -55,6 +56,9 @@ type Model struct {
 	cmdHeight       int
 
 	focus pane
+
+	runningProc  *exec.Cmd
+	ctrlCPending bool
 
 	mode    appMode
 	editor  editorState
