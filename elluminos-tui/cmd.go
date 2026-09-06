@@ -115,6 +115,9 @@ var interactiveCmds = map[string]bool{
 	"less": true, "more": true, "man": true,
 	"top": true, "htop": true, "btop": true,
 	"ssh": true, "ftp": true, "telnet": true,
+	// sudo and su open /dev/tty directly for password prompts; they need full
+	// terminal control via tea.ExecProcess, not the captured-output runCmd path.
+	"sudo": true, "su": true,
 }
 
 func isInteractiveCmd(line string) bool {
