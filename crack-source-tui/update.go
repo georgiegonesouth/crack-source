@@ -1,10 +1,12 @@
 package main
 
 import (
+	"strings"
 	"syscall"
 
 	"crack-source/internal/parser"
 
+	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -61,6 +63,51 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.scrollToHeading()
 
 	case tea.MouseMsg:
+		switch msg.Action {
+		case tea.MouseActionPress:
+			if msg.Button == tea.MouseButtonLeft && msg.Shift {
+				x0, y0, x1, y1 := m.focusBounds()
+				cx := max(x0, min(msg.X, x1))
+				cy := max(y0, min(msg.Y, y1))
+				m.selActive = true
+				m.selAX, m.selAY = cx, cy
+				m.selEX, m.selEY = cx, cy
+			} else if msg.Button == tea.MouseButtonLeft {
+				m.selActive = false
+				bodyTop := 1
+				if m.mode == modeNotebook {
+					bodyTop += m.tokenBarRows()
+				}
+				cmdTop := m.height - m.cmdH()
+				switch {
+				case msg.Y >= cmdTop:
+					m.focus = paneCmd
+				case msg.Y < bodyTop && m.mode == modeNotebook && msg.Y >= 1:
+					m.tokenInputs[m.tokenFocus].Focus()
+					m.focus = paneTokens
+				case msg.X < sidebarWidth+2:
+					m.searchInput.Blur()
+					m.searchNavMode = false
+					m.focus = paneSidebar
+				default:
+					m.focus = paneContent
+				}
+			}
+		case tea.MouseActionMotion:
+			if m.selActive {
+				x0, y0, x1, y1 := m.focusBounds()
+				m.selEX = max(x0, min(msg.X, x1))
+				m.selEY = max(y0, min(msg.Y, y1))
+			}
+		case tea.MouseActionRelease:
+			if m.selActive && msg.Button == tea.MouseButtonLeft {
+				text := extractSelection(m.buildFrame(), m.selAX, m.selAY, m.selEX, m.selEY)
+				if text != "" {
+					_ = clipboard.WriteAll(text)
+				}
+				m.selActive = false
+			}
+		}
 		if m.focus == paneCmd {
 			if msg.Button == tea.MouseButtonWheelUp {
 				m.cmdVp.LineUp(3)
@@ -134,6 +181,76 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, ctrlCTimeout()
 		}
 		m.ctrlCPending = false
+
+		if key.Matches(msg, m.keys.CmdCopyLine) {
+			var text string
+			switch m.focus {
+			case paneCmd:
+				text = m.cmdCurrentLine
+			case paneContent:
+				if m.mode == modeEditor && m.editor.line < len(m.editor.lines) {
+					text = m.editor.lines[m.editor.line]
+				} else if m.codeNavActive && m.codeIdx < len(m.visibleCodes) {
+					text = m.editText
+					if text == "" {
+						text = parser.StripANSI(m.visibleCodes[m.codeIdx].Text)
+					}
+				}
+			}
+			if text != "" {
+				_ = clipboard.WriteAll(text)
+			}
+			return m, nil
+		}
+
+		if key.Matches(msg, m.keys.CmdPaste) {
+			text, err := clipboard.ReadAll()
+			if err != nil || text == "" {
+				return m, nil
+			}
+			noNL := strings.NewReplacer("\r\n", "", "\r", "", "\n", "").Replace(text)
+			switch m.focus {
+			case paneCmd:
+				for _, r := range []rune(noNL) {
+					m.cmdInsertRune(r)
+				}
+				m.cmdUpdateViewport()
+			case paneSearch:
+				if !m.searchNavMode {
+					m.searchInput.SetValue(m.searchInput.Value() + noNL)
+					m.filtered = m.filterEntries(m.searchInput.Value())
+				}
+			case paneTokens:
+				m.tokenInputs[m.tokenFocus].SetValue(m.tokenInputs[m.tokenFocus].Value() + noNL)
+				m.commitTokens()
+				return m, m.rerenderFile()
+			case paneContent:
+				switch {
+				case m.localTokenEditActive:
+					m.localTokenInput.SetValue(m.localTokenInput.Value() + noNL)
+					if len(m.localTokensInBlock) > 0 {
+						m.localTokenValues[m.localTokensInBlock[m.localTokenFocus]] = m.localTokenInput.Value()
+					}
+					return m, m.rerenderFile()
+				case m.codeEditMode:
+					runes := []rune(m.editText)
+					ins := []rune(noNL)
+					m.editText = string(runes[:m.editCursor]) + string(ins) + string(runes[m.editCursor:])
+					m.editCursor += len(ins)
+					return m, m.rerenderFile()
+				case m.mode == modeEditor:
+					for _, r := range []rune(text) {
+						if r == '\n' {
+							m.editor.insertNewline()
+						} else if r != '\r' {
+							m.editor.insertRune(r)
+						}
+					}
+					m.editorScrollUpdate()
+				}
+			}
+			return m, nil
+		}
 
 		// ModeToggle fires globally before any pane routing so it always works,
 		// including when paneContent is in codeEditMode.

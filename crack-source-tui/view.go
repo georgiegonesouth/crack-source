@@ -15,7 +15,7 @@ var (
 	styleHeader   = lipgloss.NewStyle().Background(lipgloss.Color("0")).Foreground(lipgloss.Color("12")).Bold(true).Padding(0, 1)
 )
 
-func (m Model) View() string {
+func (m Model) buildFrame() string {
 	if m.width == 0 {
 		return "loading..."
 	}
@@ -40,6 +40,82 @@ func (m Model) View() string {
 	}
 	tokenBar := m.renderTokenBar()
 	return lipgloss.JoinVertical(lipgloss.Left, header, tokenBar, body, cmdPane)
+}
+
+func (m Model) View() string {
+	frame := m.buildFrame()
+	if m.selActive {
+		return applySelectionHighlight(frame, m.selAX, m.selAY, m.selEX, m.selEY)
+	}
+	return frame
+}
+
+func selNorm(ax, ay, ex, ey int) (int, int, int, int) {
+	if ay > ey || (ay == ey && ax > ex) {
+		return ex, ey, ax, ay
+	}
+	return ax, ay, ex, ey
+}
+
+func applySelectionHighlight(frame string, ax, ay, ex, ey int) string {
+	ax, ay, ex, ey = selNorm(ax, ay, ex, ey)
+	lines := strings.Split(frame, "\n")
+	hlStyle := lipgloss.NewStyle().Reverse(true)
+	for y := ay; y <= ey && y < len(lines); y++ {
+		plain := stripANSIString(lines[y])
+		runes := []rune(plain)
+		startX, endX := 0, len(runes)
+		if y == ay {
+			startX = ax
+		}
+		if y == ey {
+			endX = ex + 1
+		}
+		if startX < 0 {
+			startX = 0
+		}
+		if endX > len(runes) {
+			endX = len(runes)
+		}
+		if startX > endX {
+			startX = endX
+		}
+		lines[y] = string(runes[:startX]) + hlStyle.Render(string(runes[startX:endX])) + string(runes[endX:])
+	}
+	return strings.Join(lines, "\n")
+}
+
+func extractSelection(frame string, ax, ay, ex, ey int) string {
+	ax, ay, ex, ey = selNorm(ax, ay, ex, ey)
+	lines := strings.Split(frame, "\n")
+	var parts []string
+	for y := ay; y <= ey && y < len(lines); y++ {
+		plain := stripANSIString(lines[y])
+		runes := []rune(plain)
+		startX, endX := 0, len(runes)
+		if y == ay {
+			startX = ax
+		}
+		if y == ey {
+			endX = ex + 1
+		}
+		if startX < 0 {
+			startX = 0
+		}
+		if endX > len(runes) {
+			endX = len(runes)
+		}
+		if startX > endX {
+			startX = endX
+		}
+		parts = append(parts, string(runes[startX:endX]))
+	}
+	return strings.TrimSpace(strings.Join(parts, "\n"))
+}
+
+// stripANSIString is a thin wrapper so view.go can strip ANSI without importing parser directly.
+func stripANSIString(s string) string {
+	return parser.StripANSI(s)
 }
 
 func (m Model) tokenBarRows() int {

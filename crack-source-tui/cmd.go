@@ -6,7 +6,6 @@ import (
 	"os/user"
 	"strings"
 
-	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -141,21 +140,6 @@ func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	case key.Matches(msg, k.CmdClear):
 		m.cmdClear()
-		return m, nil
-
-	case key.Matches(msg, k.CmdCopyLine):
-		_ = clipboard.WriteAll(m.cmdCurrentLine)
-		return m, nil
-
-	case key.Matches(msg, k.CmdPaste):
-		if text, err := clipboard.ReadAll(); err == nil {
-			for _, r := range []rune(text) {
-				if r != '\n' && r != '\r' {
-					m.cmdInsertRune(r)
-				}
-			}
-			m.cmdUpdateViewport()
-		}
 		return m, nil
 
 	case key.Matches(msg, k.CmdRun):

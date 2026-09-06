@@ -61,6 +61,10 @@ type Model struct {
 	procSiginted bool
 	ctrlCPending bool
 
+	selActive        bool
+	selAX, selAY     int
+	selEX, selEY     int
+
 	mode    appMode
 	editor  editorState
 	workDir string
