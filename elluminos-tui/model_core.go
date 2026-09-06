@@ -14,6 +14,7 @@ import (
 type Model struct {
 	width, height int
 	cfg           tuiConfig
+	keys          KeyMap
 	profile       profile
 	files         []manifest.Entry
 	cursor        int
@@ -68,7 +69,7 @@ type Model struct {
 	contentIndex     map[string]string
 }
 
-func newModel(cfg tuiConfig) Model {
+func newModel(cfg tuiConfig, km KeyMap) Model {
 	files := manifest.LoadFiles(cfg.ManifestPath)
 	p := loadProfile("default")
 	cwd, _ := os.Getwd()
@@ -91,6 +92,7 @@ func newModel(cfg tuiConfig) Model {
 
 	return Model{
 		cfg:              cfg,
+		keys:             km,
 		profile:          p,
 		files:            files,
 		sidebarCollapsed: initSidebarCollapsed(files),

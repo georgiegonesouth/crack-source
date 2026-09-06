@@ -3,6 +3,7 @@ package main
 import (
 	"pt-tui/internal/parser"
 
+	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -84,19 +85,21 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	case tea.KeyMsg:
-		if msg.String() == "ctrl+e" {
+		// ModeToggle fires globally before any pane routing so it always works,
+		// including when paneContent is in codeEditMode.
+		if key.Matches(msg, m.keys.ModeToggle) {
 			return handleModeToggle(m)
 		}
 		if m.mode == modeEditor && (m.focus == paneSidebar || m.focus == paneContent) {
 			return handleEditorKey(m, msg)
 		}
 
-		switch msg.String() {
-		case "ctrl+shift+down":
+		switch {
+		case key.Matches(msg, m.keys.ResizeCmdSnapMin):
 			m.cmdHeight = 10
 			m.vp.Height = m.bodyH() - 2
 			m.cmdVp.Height = max(1, m.cmdH()-2)
-		case "ctrl+shift+up":
+		case key.Matches(msg, m.keys.ResizeCmdSnapMax):
 			m.cmdHeight = m.height * 2 / 3
 			m.vp.Height = m.bodyH() - 2
 			m.cmdVp.Height = max(1, m.cmdH()-2)
@@ -104,17 +107,19 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		switch m.focus {
 		case paneSearch:
-			switch msg.String() {
-			case "ctrl+c":
+			switch {
+			case key.Matches(msg, m.keys.Quit):
 				return m, tea.Quit
-			case "escape", "esc":
+
+			case key.Matches(msg, m.keys.Escape):
 				m.searchInput.Blur()
 				m.searchInput.SetValue("")
 				m.filtered = nil
 				m.sidebarOffset = 0
 				m.searchNavMode = false
 				m.focus = paneSidebar
-			case "enter":
+
+			case key.Matches(msg, m.keys.Enter):
 				if !m.searchNavMode {
 					m.searchNavMode = true
 					m.searchInput.Blur()
@@ -129,30 +134,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						}
 					}
 				}
-			case "down":
-				list := m.searchList()
-				next := m.searchCursor + 1
-				for next < len(list) && list[next].Path == "" {
-					next++
-				}
-				if next < len(list) {
-					m.searchCursor = next
-				}
-				m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
-			case "up":
-				list := m.searchList()
-				prev := m.searchCursor - 1
-				for prev >= 0 && list[prev].Path == "" {
-					prev--
-				}
-				if prev >= 0 {
-					m.searchCursor = prev
-				}
-				m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
-			case "k", "j":
+
+			default:
 				if m.searchNavMode {
-					list := m.searchList()
-					if msg.String() == "k" {
+					// In nav mode, handle navigation keys; anything else exits nav mode.
+					switch {
+					case key.Matches(msg, m.keys.SidebarDown):
+						list := m.searchList()
 						next := m.searchCursor + 1
 						for next < len(list) && list[next].Path == "" {
 							next++
@@ -160,7 +148,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						if next < len(list) {
 							m.searchCursor = next
 						}
-					} else {
+						m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
+
+					case key.Matches(msg, m.keys.SidebarUp):
+						list := m.searchList()
 						prev := m.searchCursor - 1
 						for prev >= 0 && list[prev].Path == "" {
 							prev--
@@ -168,9 +159,51 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						if prev >= 0 {
 							m.searchCursor = prev
 						}
+						m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
+
+					case key.Matches(msg, m.keys.SidebarJumpDown):
+						list := m.searchList()
+						next := m.searchCursor + 1
+						for next < len(list) && list[next].Path != "" {
+							next++
+						}
+						if next < len(list) {
+							m.searchCursor = next
+						}
+						m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
+
+					case key.Matches(msg, m.keys.SidebarJumpUp):
+						list := m.searchList()
+						prev := m.searchCursor - 1
+						for prev >= 0 && list[prev].Path != "" {
+							prev--
+						}
+						if prev >= 0 {
+							m.searchCursor = prev
+						}
+						m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
+
+					case key.Matches(msg, m.keys.FocusSearch):
+						// Toggle back to input mode.
+						m.searchNavMode = false
+						cmds = append(cmds, m.searchInput.Focus())
+
+					default:
+						// Any other key exits nav mode and is forwarded to the input.
+						m.searchNavMode = false
+						cmds = append(cmds, m.searchInput.Focus())
+						var cmd tea.Cmd
+						m.searchInput, cmd = m.searchInput.Update(msg)
+						cmds = append(cmds, cmd)
+						m.filtered = m.filterEntries(m.searchInput.Value())
+						m.searchCursor = 0
+						list := m.searchList()
+						for m.searchCursor < len(list) && list[m.searchCursor].Path == "" {
+							m.searchCursor++
+						}
 					}
-					m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
 				} else {
+					// Non-nav mode: all keys feed the search input.
 					var cmd tea.Cmd
 					m.searchInput, cmd = m.searchInput.Update(msg)
 					cmds = append(cmds, cmd)
@@ -181,56 +214,12 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						m.searchCursor++
 					}
 				}
-			case "'":
-				if m.searchNavMode {
-					m.searchNavMode = false
-					cmds = append(cmds, m.searchInput.Focus())
-				}
-			default:
-				if len(msg.Runes) == 1 && (msg.Runes[0] == 'K' || msg.Runes[0] == 'J') {
-					isK := msg.Runes[0] == 'K'
-					if m.searchNavMode {
-						list := m.searchList()
-						if isK {
-							next := m.searchCursor + 1
-							for next < len(list) && list[next].Path != "" {
-								next++
-							}
-							if next < len(list) {
-								m.searchCursor = next
-							}
-						} else {
-							prev := m.searchCursor - 1
-							for prev >= 0 && list[prev].Path != "" {
-								prev--
-							}
-							if prev >= 0 {
-								m.searchCursor = prev
-							}
-						}
-						m.sidebarOffset = clampOffset(m.searchCursor, m.sidebarOffset, m.bodyH()-3)
-						break
-					}
-				}
-				if m.searchNavMode && len(msg.Runes) > 0 {
-					m.searchNavMode = false
-					cmds = append(cmds, m.searchInput.Focus())
-				}
-				var cmd tea.Cmd
-				m.searchInput, cmd = m.searchInput.Update(msg)
-				cmds = append(cmds, cmd)
-				m.filtered = m.filterEntries(m.searchInput.Value())
-				m.searchCursor = 0
-				list := m.searchList()
-				for m.searchCursor < len(list) && list[m.searchCursor].Path == "" {
-					m.searchCursor++
-				}
 			}
 
 		case paneSidebar:
 			tree := m.collapsibleTree()
-			switch msg.String() {
-			case "enter":
+			switch {
+			case key.Matches(msg, m.keys.Enter):
 				if m.cursor < len(tree) {
 					sel := tree[m.cursor]
 					if sel.Path == "" {
@@ -244,86 +233,82 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						m.focus = paneContent
 					}
 				}
-			case "'":
+			case key.Matches(msg, m.keys.FocusSearch):
 				m.focus = paneSearch
 				m.searchInput.SetValue("")
 				m.filtered = nil
 				m.searchCursor = 0
 				m.searchNavMode = false
 				cmds = append(cmds, m.searchInput.Focus())
-			case "ctrl+c", "q":
+			case key.Matches(msg, m.keys.Quit):
 				return m, tea.Quit
-			case "k", "down":
+			case key.Matches(msg, m.keys.SidebarDown):
 				m.cursor = min(m.cursor+1, len(tree)-1)
 				m.sidebarOffset = clampOffset(m.cursor, m.sidebarOffset, m.bodyH()-2)
-			case "j", "up":
+			case key.Matches(msg, m.keys.SidebarUp):
 				m.cursor = max(m.cursor-1, 0)
 				m.sidebarOffset = clampOffset(m.cursor, m.sidebarOffset, m.bodyH()-2)
-			case "tab", "l":
+			case key.Matches(msg, m.keys.FocusContent):
 				m.focus = paneContent
-			case "t":
+			case key.Matches(msg, m.keys.FocusTokens):
 				m.focus = paneTokens
 				m.tokenInputs[m.tokenFocus].Focus()
-			case "C":
+			case key.Matches(msg, m.keys.FocusCmd):
 				m.focus = paneCmd
-			default:
-				if len(msg.Runes) == 1 && (msg.Runes[0] == 'K' || msg.Runes[0] == 'J') {
-					isK := msg.Runes[0] == 'K'
-					if isK {
-						next := m.cursor + 1
-						for next < len(tree) && tree[next].Path != "" {
-							next++
-						}
-						if next < len(tree) {
-							m.cursor = next
-						}
-					} else {
-						prev := m.cursor - 1
-						for prev >= 0 && tree[prev].Path != "" {
-							prev--
-						}
-						if prev >= 0 {
-							m.cursor = prev
-						}
-					}
-					m.sidebarOffset = clampOffset(m.cursor, m.sidebarOffset, m.bodyH()-2)
+			case key.Matches(msg, m.keys.SidebarJumpDown):
+				next := m.cursor + 1
+				for next < len(tree) && tree[next].Path != "" {
+					next++
 				}
+				if next < len(tree) {
+					m.cursor = next
+				}
+				m.sidebarOffset = clampOffset(m.cursor, m.sidebarOffset, m.bodyH()-2)
+			case key.Matches(msg, m.keys.SidebarJumpUp):
+				prev := m.cursor - 1
+				for prev >= 0 && tree[prev].Path != "" {
+					prev--
+				}
+				if prev >= 0 {
+					m.cursor = prev
+				}
+				m.sidebarOffset = clampOffset(m.cursor, m.sidebarOffset, m.bodyH()-2)
 			}
 
 		case paneContent:
 			if m.codeEditMode {
-				switch msg.String() {
-				case "ctrl+c":
+				switch {
+				case key.Matches(msg, m.keys.Quit):
 					return m, tea.Quit
-				case "enter":
+				case key.Matches(msg, m.keys.Enter):
 					m.codeEditMode = false
-				case "escape", "esc":
+				case key.Matches(msg, m.keys.Escape):
 					m.codeEditMode = false
 					m.editText = ""
 					m.editCursor = 0
-				case "left":
+				case key.Matches(msg, m.keys.Left):
 					if m.editCursor > 0 {
 						m.editCursor--
 					}
-				case "right":
+				case key.Matches(msg, m.keys.Right):
 					if m.editCursor < len([]rune(m.editText)) {
 						m.editCursor++
 					}
-				case "alt+left":
+				case key.Matches(msg, m.keys.WordLeft):
 					m.editCursor = parser.PrevWord(m.editText, m.editCursor)
-				case "alt+right":
+				case key.Matches(msg, m.keys.WordRight):
 					m.editCursor = parser.NextWord(m.editText, m.editCursor)
-				case "ctrl+a":
+				case key.Matches(msg, m.keys.Home):
 					m.editCursor = 0
-				case "ctrl+e":
+				case key.Matches(msg, m.keys.End):
 					m.editCursor = len([]rune(m.editText))
-				case "backspace":
+				case key.Matches(msg, m.keys.Backspace):
 					if m.editCursor > 0 {
 						r := []rune(m.editText)
 						m.editText = string(r[:m.editCursor-1]) + string(r[m.editCursor:])
 						m.editCursor--
 					}
-				case "delete":
+				case key.Matches(msg, m.keys.Delete):
 					r := []rune(m.editText)
 					if m.editCursor < len(r) {
 						m.editText = string(r[:m.editCursor]) + string(r[m.editCursor+1:])
@@ -341,19 +326,19 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 			if m.localTokenEditActive {
-				switch msg.String() {
-				case "ctrl+c":
+				switch {
+				case key.Matches(msg, m.keys.Quit):
 					return m, tea.Quit
-				case "escape", "esc":
+				case key.Matches(msg, m.keys.Escape):
 					m.localTokenInput.Blur()
 					m.localTokenEditActive = false
 					cmds = append(cmds, m.rerenderFile())
-				case "tab":
+				case key.Matches(msg, m.keys.Tab):
 					m.localTokenValues[m.localTokensInBlock[m.localTokenFocus]] = m.localTokenInput.Value()
 					m.localTokenFocus = (m.localTokenFocus + 1) % len(m.localTokensInBlock)
 					m.localTokenInput.SetValue(m.localTokenValues[m.localTokensInBlock[m.localTokenFocus]])
 					cmds = append(cmds, m.rerenderFile())
-				case "shift+tab":
+				case key.Matches(msg, m.keys.ShiftTab):
 					m.localTokenValues[m.localTokensInBlock[m.localTokenFocus]] = m.localTokenInput.Value()
 					m.localTokenFocus = (m.localTokenFocus + len(m.localTokensInBlock) - 1) % len(m.localTokensInBlock)
 					m.localTokenInput.SetValue(m.localTokenValues[m.localTokensInBlock[m.localTokenFocus]])
@@ -370,31 +355,31 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				break
 			}
 
-			switch msg.String() {
-			case "escape", "esc":
+			switch {
+			case key.Matches(msg, m.keys.Escape):
 				if m.codeNavActive {
 					m.codeNavActive = false
 					cmds = append(cmds, m.rerenderFile())
 				} else {
 					m.focus = paneSidebar
 				}
-			case "h":
+			case key.Matches(msg, m.keys.FocusSidebar):
 				m.focus = paneSidebar
-			case "'":
+			case key.Matches(msg, m.keys.FocusSearch):
 				m.focus = paneSearch
 				m.searchInput.SetValue("")
 				m.filtered = nil
 				m.searchCursor = 0
 				m.searchNavMode = false
 				cmds = append(cmds, m.searchInput.Focus())
-			case "ctrl+c", "q":
+			case key.Matches(msg, m.keys.Quit):
 				return m, tea.Quit
-			case "t":
+			case key.Matches(msg, m.keys.FocusTokens):
 				m.focus = paneTokens
 				m.tokenInputs[m.tokenFocus].Focus()
-			case "C":
+			case key.Matches(msg, m.keys.FocusCmd):
 				m.focus = paneCmd
-			case "right", "k":
+			case key.Matches(msg, m.keys.ContentNextSection):
 				hs := headings(m.doc)
 				if m.headingIdx < len(hs)-1 {
 					m.headingIdx++
@@ -404,7 +389,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.editCursor = 0
 					cmds = append(cmds, m.rerenderFile())
 				}
-			case "left", "j":
+			case key.Matches(msg, m.keys.ContentPrevSection):
 				if m.headingIdx > 0 {
 					m.headingIdx--
 					m.codeNavActive = false
@@ -413,7 +398,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.editCursor = 0
 					cmds = append(cmds, m.rerenderFile())
 				}
-			case "enter":
+			case key.Matches(msg, m.keys.Enter):
 				if m.codeNavActive && m.codeIdx < len(m.visibleCodes) {
 					m.codeEditMode = true
 					m.editText = parser.StripANSI(m.visibleCodes[m.codeIdx].Text)
@@ -422,15 +407,15 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				} else {
 					hs := headings(m.doc)
 					if len(hs) > 0 && m.headingIdx < len(hs) {
-						key := hs[m.headingIdx].Text
+						k := hs[m.headingIdx].Text
 						if m.collapsed == nil {
 							m.collapsed = map[string]bool{}
 						}
-						m.collapsed[key] = !m.collapsed[key]
+						m.collapsed[k] = !m.collapsed[k]
 						cmds = append(cmds, m.rerenderFile())
 					}
 				}
-			case "f":
+			case key.Matches(msg, m.keys.ContentNextCode):
 				if len(m.visibleCodes) > 0 {
 					next := min(m.codeIdx+1, len(m.visibleCodes)-1)
 					if next != m.codeIdx {
@@ -442,7 +427,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.codeIdx = next
 					cmds = append(cmds, m.rerenderFile())
 				}
-			case "d":
+			case key.Matches(msg, m.keys.ContentPrevCode):
 				if len(m.visibleCodes) > 0 {
 					prev := max(m.codeIdx-1, 0)
 					if prev != m.codeIdx {
@@ -454,7 +439,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.codeIdx = prev
 					cmds = append(cmds, m.rerenderFile())
 				}
-			case "u":
+			case key.Matches(msg, m.keys.ContentUseToken):
 				if m.codeNavActive && m.codeIdx < len(m.visibleCodes) {
 					b := m.visibleCodes[m.codeIdx]
 					if b.TokenOption != "" {
@@ -463,7 +448,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						cmds = append(cmds, m.rerenderFile())
 					}
 				}
-			case "x":
+			case key.Matches(msg, m.keys.ContentRunCode):
 				if m.codeNavActive && m.codeIdx < len(m.visibleCodes) {
 					execText := m.editText
 					if execText == "" {
@@ -475,7 +460,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.cmdUpdateViewport()
 					m.focus = paneCmd
 				}
-			case "tab":
+			case key.Matches(msg, m.keys.Tab):
 				if m.codeNavActive && m.codeIdx < len(m.visibleCodes) {
 					blockTokens := parser.ExtractLocalTokens(parser.StripANSI(m.visibleCodes[m.codeIdx].Text), tokenKeys)
 					if len(blockTokens) > 0 {
@@ -487,9 +472,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 						cmds = append(cmds, m.rerenderFile())
 					}
 				}
-			case "l", "up":
+			case key.Matches(msg, m.keys.ContentScrollUp):
 				m.vp.LineUp(1)
-			case "ö", "down":
+			case key.Matches(msg, m.keys.ContentScrollDown):
 				m.vp.LineDown(1)
 			default:
 				var cmd tea.Cmd
@@ -498,27 +483,22 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case paneTokens:
-			switch msg.String() {
-			case "ctrl+c":
+			switch {
+			case key.Matches(msg, m.keys.Quit):
 				return m, tea.Quit
-			case "escape", "esc":
+			case key.Matches(msg, m.keys.Escape), key.Matches(msg, m.keys.Enter):
 				m.tokenInputs[m.tokenFocus].Blur()
 				m.focus = paneContent
 				m.commitTokens()
 				cmds = append(cmds, m.rerenderFile())
-			case "tab", "right":
+			case key.Matches(msg, m.keys.Tab), key.Matches(msg, m.keys.Right):
 				m.tokenInputs[m.tokenFocus].Blur()
 				m.tokenFocus = (m.tokenFocus + 1) % len(tokenKeys)
 				m.tokenInputs[m.tokenFocus].Focus()
-			case "shift+tab", "left":
+			case key.Matches(msg, m.keys.ShiftTab), key.Matches(msg, m.keys.Left):
 				m.tokenInputs[m.tokenFocus].Blur()
 				m.tokenFocus = (m.tokenFocus + len(tokenKeys) - 1) % len(tokenKeys)
 				m.tokenInputs[m.tokenFocus].Focus()
-			case "enter":
-				m.tokenInputs[m.tokenFocus].Blur()
-				m.focus = paneContent
-				m.commitTokens()
-				cmds = append(cmds, m.rerenderFile())
 			default:
 				var cmd tea.Cmd
 				m.tokenInputs[m.tokenFocus], cmd = m.tokenInputs[m.tokenFocus].Update(msg)

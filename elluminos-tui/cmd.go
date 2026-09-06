@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/atotto/clipboard"
+	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"pt-tui/internal/parser"
@@ -129,23 +130,24 @@ func isInteractiveCmd(line string) bool {
 }
 
 func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
-	switch msg.String() {
-	case "ctrl+c":
+	k := m.keys
+	switch {
+	case key.Matches(msg, k.Quit):
 		return m, tea.Quit
 
-	case "escape", "esc":
+	case key.Matches(msg, k.Escape):
 		m.focus = paneContent
 		return m, nil
 
-	case "ctrl+l":
+	case key.Matches(msg, k.CmdClear):
 		m.cmdClear()
 		return m, nil
 
-	case "ctrl+shift+c":
+	case key.Matches(msg, k.CmdCopyLine):
 		_ = clipboard.WriteAll(m.cmdCurrentLine)
 		return m, nil
 
-	case "ctrl+shift+v":
+	case key.Matches(msg, k.CmdPaste):
 		if text, err := clipboard.ReadAll(); err == nil {
 			for _, r := range []rune(text) {
 				if r != '\n' && r != '\r' {
@@ -156,7 +158,7 @@ func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 		return m, nil
 
-	case "enter":
+	case key.Matches(msg, k.CmdRun):
 		line := m.cmdCurrentLine
 		trimmed := strings.TrimSpace(line)
 		m.cmdPromptAtTop = false
@@ -204,50 +206,50 @@ func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 		return m, runCmd(trimmed, m.workDir)
 
-	case "backspace", "ctrl+h":
+	case key.Matches(msg, k.Backspace):
 		m.cmdDeleteBackward()
 		m.cmdUpdateViewport()
 
-	case "delete":
+	case key.Matches(msg, k.Delete):
 		m.cmdDeleteForward()
 		m.cmdUpdateViewport()
 
-	case "left":
+	case key.Matches(msg, k.Left):
 		if m.cmdCursorPos > 0 {
 			m.cmdCursorPos--
 		}
 		m.cmdUpdateViewport()
 
-	case "right":
+	case key.Matches(msg, k.Right):
 		if m.cmdCursorPos < len([]rune(m.cmdCurrentLine)) {
 			m.cmdCursorPos++
 		}
 		m.cmdUpdateViewport()
 
-	case "home", "ctrl+a":
+	case key.Matches(msg, k.Home):
 		m.cmdCursorPos = 0
 		m.cmdUpdateViewport()
 
-	case "end":
+	case key.Matches(msg, k.End):
 		m.cmdCursorPos = len([]rune(m.cmdCurrentLine))
 		m.cmdUpdateViewport()
 
-	case "alt+left":
+	case key.Matches(msg, k.WordLeft):
 		m.cmdCursorPos = parser.PrevWord(m.cmdCurrentLine, m.cmdCursorPos)
 		m.cmdUpdateViewport()
 
-	case "alt+right":
+	case key.Matches(msg, k.WordRight):
 		m.cmdCursorPos = parser.NextWord(m.cmdCurrentLine, m.cmdCursorPos)
 		m.cmdUpdateViewport()
 
-	case "ctrl+w":
+	case key.Matches(msg, k.WordDelete):
 		newPos := parser.PrevWord(m.cmdCurrentLine, m.cmdCursorPos)
 		runes := []rune(m.cmdCurrentLine)
 		m.cmdCurrentLine = string(append(runes[:newPos], runes[m.cmdCursorPos:]...))
 		m.cmdCursorPos = newPos
 		m.cmdUpdateViewport()
 
-	case "up":
+	case key.Matches(msg, k.CmdHistoryUp):
 		if m.cmdHistIdx > 0 {
 			m.cmdHistIdx--
 			m.cmdCurrentLine = m.cmdHistory[m.cmdHistIdx]
@@ -255,7 +257,7 @@ func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 		m.cmdUpdateViewport()
 
-	case "down":
+	case key.Matches(msg, k.CmdHistoryDown):
 		if m.cmdHistIdx < len(m.cmdHistory) {
 			m.cmdHistIdx++
 			if m.cmdHistIdx == len(m.cmdHistory) {
@@ -267,13 +269,13 @@ func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 		m.cmdUpdateViewport()
 
-	case "shift+down":
+	case key.Matches(msg, k.ResizeCmdSmaller):
 		m.cmdHeight = max(3, m.cmdHeight-1)
 		m.vp.Height = m.bodyH() - 2
 		m.cmdVp.Height = max(1, m.cmdH()-2)
 		m.cmdUpdateViewport()
 
-	case "shift+up":
+	case key.Matches(msg, k.ResizeCmdLarger):
 		m.cmdHeight = min(m.height*2/3, m.cmdHeight+1)
 		m.vp.Height = m.bodyH() - 2
 		m.cmdVp.Height = max(1, m.cmdH()-2)

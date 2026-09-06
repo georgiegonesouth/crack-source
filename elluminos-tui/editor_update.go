@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -53,31 +54,31 @@ func handleEditorKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 }
 
 func handleEditorSidebarKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
-	switch msg.String() {
-	case "ctrl+shift+down":
+	k := m.keys
+	e := &m.editor
+
+	switch {
+	case key.Matches(msg, k.ResizeCmdSnapMin):
 		m.cmdHeight = 10
 		m.vp.Height = m.bodyH() - 2
-	case "ctrl+shift+up":
+	case key.Matches(msg, k.ResizeCmdSnapMax):
 		m.cmdHeight = m.height * 2 / 3
 		m.vp.Height = m.bodyH() - 2
-	}
-	e := &m.editor
-	switch msg.String() {
-	case "ctrl+c":
+	case key.Matches(msg, k.Quit):
 		return m, tea.Quit
-	case "ctrl+e":
+	case key.Matches(msg, k.ModeToggle):
 		return handleModeToggle(m)
-	case "up", "j":
+	case key.Matches(msg, k.EditorSidebarUp):
 		if e.dirCursor > 0 {
 			e.dirCursor--
 			e.dirOffset = clampOffset(e.dirCursor, e.dirOffset, m.bodyH()-3)
 		}
-	case "down", "k":
+	case key.Matches(msg, k.EditorSidebarDown):
 		if e.dirCursor < len(e.dirEntries)-1 {
 			e.dirCursor++
 			e.dirOffset = clampOffset(e.dirCursor, e.dirOffset, m.bodyH()-3)
 		}
-	case "enter", "l":
+	case key.Matches(msg, k.EditorSidebarOpen):
 		if e.dirCursor < len(e.dirEntries) {
 			de := e.dirEntries[e.dirCursor]
 			if de.isDir {
@@ -89,71 +90,69 @@ func handleEditorSidebarKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				m.editorScrollUpdate()
 			}
 		}
-	case "tab", "right":
+	case key.Matches(msg, k.FocusContent):
 		if e.filePath != "" {
 			m.focus = paneContent
 		}
-	case "C":
+	case key.Matches(msg, k.FocusCmd):
 		m.focus = paneCmd
-		return m, nil
 	}
 	return m, nil
 }
 
 func handleEditorContentKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
-	switch msg.String() {
-	case "ctrl+shift+down":
+	k := m.keys
+	e := &m.editor
+
+	switch {
+	case key.Matches(msg, k.ResizeCmdSnapMin):
 		m.cmdHeight = 10
 		m.vp.Height = m.bodyH() - 2
-	case "ctrl+shift+up":
+	case key.Matches(msg, k.ResizeCmdSnapMax):
 		m.cmdHeight = m.height * 2 / 3
 		m.vp.Height = m.bodyH() - 2
-	}
-	e := &m.editor
-	switch msg.String() {
-	case "ctrl+c":
+	case key.Matches(msg, k.Quit):
 		return m, tea.Quit
-	case "ctrl+s":
+	case key.Matches(msg, k.EditorSave):
 		e.saveFile()
-	case "ctrl+e":
+	case key.Matches(msg, k.ModeToggle):
 		return handleModeToggle(m)
-	case "escape", "esc":
+	case key.Matches(msg, k.Escape):
 		m.focus = paneSidebar
-	case "up":
+	case key.Matches(msg, k.Up):
 		e.moveUp()
 		m.editorScrollUpdate()
-	case "down":
+	case key.Matches(msg, k.Down):
 		e.moveDown()
 		m.editorScrollUpdate()
-	case "left":
+	case key.Matches(msg, k.Left):
 		e.moveLeft()
 		m.editorScrollUpdate()
-	case "right":
+	case key.Matches(msg, k.Right):
 		e.moveRight()
 		m.editorScrollUpdate()
-	case "home", "ctrl+a":
+	case key.Matches(msg, k.Home):
 		e.moveLineStart()
 		m.editorScrollUpdate()
-	case "end":
+	case key.Matches(msg, k.End):
 		e.moveLineEnd()
 		m.editorScrollUpdate()
-	case "enter":
+	case key.Matches(msg, k.Enter):
 		e.insertNewline()
 		m.editorScrollUpdate()
-	case "backspace", "ctrl+h":
+	case key.Matches(msg, k.Backspace):
 		e.deleteBackward()
 		m.editorScrollUpdate()
-	case "delete":
+	case key.Matches(msg, k.Delete):
 		e.deleteForward()
 		m.editorScrollUpdate()
-	case "tab":
+	case key.Matches(msg, k.Tab):
 		for i := 0; i < 4; i++ {
 			e.insertRune(' ')
 		}
 		m.editorScrollUpdate()
-	case "C":
+	case key.Matches(msg, k.FocusCmd):
 		m.focus = paneCmd
-		return m, nil
 	default:
 		if len(msg.Runes) == 1 {
 			e.insertRune(msg.Runes[0])
