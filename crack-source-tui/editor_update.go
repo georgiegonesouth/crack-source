@@ -96,6 +96,11 @@ func handleEditorSidebarKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 	case key.Matches(msg, k.FocusCmd):
 		m.focus = paneCmd
+	default:
+		if msg.String() == "." {
+			e.showHidden = !e.showHidden
+			e.loadDir(e.dir)
+		}
 	}
 	return m, nil
 }
@@ -111,8 +116,6 @@ func handleEditorContentKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case key.Matches(msg, k.ResizeCmdSnapMax):
 		m.cmdHeight = m.height * 2 / 3
 		m.vp.Height = m.bodyH() - 2
-	case key.Matches(msg, k.Quit):
-		return m, tea.Quit
 	case key.Matches(msg, k.EditorSave):
 		e.saveFile()
 	case key.Matches(msg, k.ModeToggle):

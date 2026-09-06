@@ -29,8 +29,14 @@ func (m Model) renderEditorSidebar() string {
 	}
 	sb.WriteString(styleEditorDir.Render(dirLabel))
 	sb.WriteByte('\n')
+	if e.showHidden {
+		sb.WriteString(styleSelected.Render("[.] hide hidden"))
+	} else {
+		sb.WriteString(styleDim.Render("[.] show hidden"))
+	}
+	sb.WriteByte('\n')
 
-	maxLines := h - 3
+	maxLines := h - 4
 	start := e.dirOffset
 	end := min(start+maxLines, len(e.dirEntries))
 	for i := start; i < end; i++ {

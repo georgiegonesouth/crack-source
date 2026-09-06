@@ -17,6 +17,7 @@ type editorState struct {
 	dirEntries []dirEntry
 	dirCursor  int
 	dirOffset  int
+	showHidden bool
 
 	// file buffer
 	lines    []string
@@ -56,6 +57,9 @@ func (e *editorState) loadDir(path string) {
 		e.dirEntries = append(e.dirEntries, dirEntry{name: "..", isDir: true})
 	}
 	for _, de := range entries {
+		if !e.showHidden && strings.HasPrefix(de.Name(), ".") {
+			continue
+		}
 		e.dirEntries = append(e.dirEntries, dirEntry{name: de.Name(), isDir: de.IsDir()})
 	}
 	e.dirCursor = 0

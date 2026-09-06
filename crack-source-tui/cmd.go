@@ -135,9 +135,6 @@ func isInteractiveCmd(line string) bool {
 func handleCmdKey(m Model, msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	k := m.keys
 	switch {
-	case key.Matches(msg, k.Quit):
-		return m, tea.Quit
-
 	case key.Matches(msg, k.Escape):
 		m.focus = paneContent
 		return m, nil

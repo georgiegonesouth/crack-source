@@ -58,6 +58,7 @@ type Model struct {
 	focus pane
 
 	runningProc  *exec.Cmd
+	procSiginted bool
 	ctrlCPending bool
 
 	mode    appMode

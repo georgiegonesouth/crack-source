@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"time"
 
 	"crack-source/internal/parser"
@@ -147,6 +148,7 @@ func startStreamCmd(c, dir string) tea.Cmd {
 	return func() tea.Msg {
 		cmd := exec.Command("sh", "-c", c)
 		cmd.Dir = dir
+		cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 		pr, pw, err := os.Pipe()
 		if err != nil {
 			return cmdOutputMsg("pipe error: " + err.Error())

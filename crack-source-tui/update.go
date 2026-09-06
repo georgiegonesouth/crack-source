@@ -89,6 +89,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case cmdDoneMsg:
 		m.runningProc = nil
+		m.procSiginted = false
 		if msg.text != "" {
 			m.cmdScrollback += msg.text
 		}
@@ -115,7 +116,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		if msg.Type == tea.KeyCtrlC {
 			if m.runningProc != nil {
-				m.runningProc.Process.Signal(syscall.SIGINT)
+				pgid := m.runningProc.Process.Pid
+				if m.procSiginted {
+					syscall.Kill(-pgid, syscall.SIGKILL)
+				} else {
+					syscall.Kill(-pgid, syscall.SIGINT)
+					m.procSiginted = true
+				}
 				return m, nil
 			}
 			if m.ctrlCPending {
@@ -151,9 +158,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch m.focus {
 		case paneSearch:
 			switch {
-			case key.Matches(msg, m.keys.Quit):
-				return m, tea.Quit
-
 			case key.Matches(msg, m.keys.Escape):
 				m.searchInput.Blur()
 				m.searchInput.SetValue("")
@@ -182,6 +186,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if m.searchNavMode {
 					// In nav mode, handle navigation keys; anything else exits nav mode.
 					switch {
+					case key.Matches(msg, m.keys.Quit):
+						return m, tea.Quit
 					case key.Matches(msg, m.keys.SidebarDown):
 						list := m.searchList()
 						next := m.searchCursor + 1
@@ -321,8 +327,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case paneContent:
 			if m.codeEditMode {
 				switch {
-				case key.Matches(msg, m.keys.Quit):
-					return m, tea.Quit
 				case key.Matches(msg, m.keys.Enter):
 					m.codeEditMode = false
 				case key.Matches(msg, m.keys.Escape):
@@ -370,8 +374,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 			if m.localTokenEditActive {
 				switch {
-				case key.Matches(msg, m.keys.Quit):
-					return m, tea.Quit
 				case key.Matches(msg, m.keys.Escape):
 					m.localTokenInput.Blur()
 					m.localTokenEditActive = false
@@ -527,8 +529,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case paneTokens:
 			switch {
-			case key.Matches(msg, m.keys.Quit):
-				return m, tea.Quit
 			case key.Matches(msg, m.keys.Escape), key.Matches(msg, m.keys.Enter):
 				m.tokenInputs[m.tokenFocus].Blur()
 				m.focus = paneContent
