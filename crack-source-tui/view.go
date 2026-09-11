@@ -85,19 +85,26 @@ func applySelectionHighlight(frame string, ax, ay, ex, ey int) string {
 	return strings.Join(lines, "\n")
 }
 
-func extractSelection(frame string, ax, ay, ex, ey int) string {
+func extractSelection(frame string, ax, ay, ex, ey, x0, x1 int) string {
 	ax, ay, ex, ey = selNorm(ax, ay, ex, ey)
+	multiLine := ay < ey
 	lines := strings.Split(frame, "\n")
 	var parts []string
 	for y := ay; y <= ey && y < len(lines); y++ {
 		plain := stripANSIString(lines[y])
 		runes := []rune(plain)
-		startX, endX := 0, len(runes)
+		var startX, endX int
 		if y == ay {
 			startX = ax
+		} else {
+			startX = x0 // left pane bound for non-first lines (excludes border)
 		}
 		if y == ey {
 			endX = ex + 1
+		} else if multiLine {
+			endX = x1 + 1 // right pane bound for non-last multi-line (excludes border)
+		} else {
+			endX = len(runes)
 		}
 		if startX < 0 {
 			startX = 0
@@ -108,7 +115,11 @@ func extractSelection(frame string, ax, ay, ex, ey int) string {
 		if startX > endX {
 			startX = endX
 		}
-		parts = append(parts, string(runes[startX:endX]))
+		line := strings.TrimRight(string(runes[startX:endX]), " ")
+		if isBorderLine(line) {
+			continue
+		}
+		parts = append(parts, line)
 	}
 	return strings.TrimSpace(strings.Join(parts, "\n"))
 }
@@ -116,6 +127,22 @@ func extractSelection(frame string, ax, ay, ex, ey int) string {
 // stripANSIString is a thin wrapper so view.go can strip ANSI without importing parser directly.
 func stripANSIString(s string) string {
 	return parser.StripANSI(s)
+}
+
+// isBorderLine returns true if the line consists only of Unicode box-drawing
+// chars and spaces (i.e. it's a pane border row, not real content).
+func isBorderLine(s string) bool {
+	if s == "" {
+		return true
+	}
+	for _, r := range s {
+		switch r {
+		case '─', '│', '┌', '┐', '└', '┘', '├', '┤', '┬', '┴', '┼', ' ':
+		default:
+			return false
+		}
+	}
+	return true
 }
 
 func (m Model) tokenBarRows() int {

@@ -64,6 +64,7 @@ type Model struct {
 	selActive        bool
 	selAX, selAY     int
 	selEX, selEY     int
+	selX0, selX1     int
 
 	mode    appMode
 	editor  editorState

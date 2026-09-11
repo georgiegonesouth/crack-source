@@ -72,6 +72,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.selActive = true
 				m.selAX, m.selAY = cx, cy
 				m.selEX, m.selEY = cx, cy
+				m.selX0, m.selX1 = x0, x1
 			} else if msg.Button == tea.MouseButtonLeft {
 				m.selActive = false
 				bodyTop := 1
@@ -101,7 +102,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		case tea.MouseActionRelease:
 			if m.selActive && msg.Button == tea.MouseButtonLeft {
-				text := extractSelection(m.buildFrame(), m.selAX, m.selAY, m.selEX, m.selEY)
+				text := extractSelection(m.buildFrame(), m.selAX, m.selAY, m.selEX, m.selEY, m.selX0, m.selX1)
 				if text != "" {
 					_ = clipboard.WriteAll(text)
 				}
@@ -161,6 +162,54 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	case tea.KeyMsg:
+		// Bracketed paste: bubbletea v1.x delivers it as KeyMsg with Paste=true.
+		// Route it through the same logic as ctrl+shift+v.
+		if msg.Paste {
+			text := string(msg.Runes)
+			noNL := strings.NewReplacer("\r\n", "", "\r", "", "\n", "").Replace(text)
+			switch m.focus {
+			case paneCmd:
+				for _, r := range []rune(noNL) {
+					m.cmdInsertRune(r)
+				}
+				m.cmdUpdateViewport()
+			case paneSearch:
+				if !m.searchNavMode {
+					m.searchInput.SetValue(m.searchInput.Value() + noNL)
+					m.filtered = m.filterEntries(m.searchInput.Value())
+				}
+			case paneTokens:
+				m.tokenInputs[m.tokenFocus].SetValue(m.tokenInputs[m.tokenFocus].Value() + noNL)
+				m.commitTokens()
+				return m, m.rerenderFile()
+			case paneContent:
+				switch {
+				case m.localTokenEditActive:
+					m.localTokenInput.SetValue(m.localTokenInput.Value() + noNL)
+					if len(m.localTokensInBlock) > 0 {
+						m.localTokenValues[m.localTokensInBlock[m.localTokenFocus]] = m.localTokenInput.Value()
+					}
+					return m, m.rerenderFile()
+				case m.codeEditMode:
+					runes := []rune(m.editText)
+					ins := []rune(noNL)
+					m.editText = string(runes[:m.editCursor]) + string(ins) + string(runes[m.editCursor:])
+					m.editCursor += len(ins)
+					return m, m.rerenderFile()
+				case m.mode == modeEditor:
+					for _, r := range []rune(text) {
+						if r == '\n' {
+							m.editor.insertNewline()
+						} else if r != '\r' {
+							m.editor.insertRune(r)
+						}
+					}
+					m.editorScrollUpdate()
+				}
+			}
+			return m, nil
+		}
+
 		if msg.Type == tea.KeyCtrlC {
 			if m.runningProc != nil {
 				pgid := m.runningProc.Process.Pid
