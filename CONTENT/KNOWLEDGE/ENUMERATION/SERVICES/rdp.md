@@ -4,7 +4,7 @@
 
 ## Logging into RDP
 
-    xfreerdp /u:<USER> /p:"<PASSWORD>" /v:<TARGET_IP>
+    xfreerdp /u:<USER> /p:<PASSWORD> /v:<TARGET_IP>
 
 ## RDP Security Check
 ```    
