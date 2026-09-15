@@ -13,24 +13,31 @@ import (
 )
 
 type Model struct {
+	// terminal dimensions and app-wide config
 	width, height int
 	cfg           tuiConfig
 	keys          KeyMap
 	profile       profile
-	files         []manifest.Entry
-	cursor        int
 
-	vp            viewport.Model
-	rawFile       string
-	doc           parser.ParsedDoc
-	tipsDoc       parser.ParsedDoc
-	collapsed     map[string]bool
+	// sidebar: manifest entries and navigation state
+	files  []manifest.Entry
+	cursor int
+
+	// content pane: rendered document and scroll position
+	vp        viewport.Model
+	rawFile   string
+	doc       parser.ParsedDoc
+	tipsDoc   parser.ParsedDoc
+	collapsed map[string]bool
+
+	// content pane: heading and code block navigation
 	headingIdx    int
 	h2Lines       []int
 	codeIdx       int
 	codeNavActive bool
 	visibleCodes  []parser.Block
 
+	// per-page token bar: inputs for page-local placeholders
 	localTokenKeys       []string
 	localTokenValues     map[string]string
 	localTokenFocus      int
@@ -38,38 +45,46 @@ type Model struct {
 	localTokenEditActive bool
 	localTokensInBlock   []string
 
+	// inline code block editing
 	codeEditMode bool
 	editText     string
 	editCursor   int
 
+	// global token bar: TARGET_IP, PORT, LHOST, LPORT, USER, PASSWORD, DOMAIN
 	tokenInputs [7]textinput.Model
 	tokenFocus  int
 
-	cmdScrollback   string
-	cmdCurrentLine  string
-	cmdCursorPos    int
-	cmdVp           viewport.Model
-	cmdPromptAtTop  bool
-	cmdClearLine    int
-	cmdHistory      []string
-	cmdHistIdx      int
-	cmdHeight       int
+	// cmd pane: shell state, scrollback, and history
+	cmdScrollback  string
+	cmdCurrentLine string
+	cmdCursorPos   int
+	cmdVp          viewport.Model
+	cmdPromptAtTop bool
+	cmdClearLine   int
+	cmdHistory     []string
+	cmdHistIdx     int
+	cmdHeight      int
 
+	// which pane has keyboard focus
 	focus pane
 
+	// background process tracking (long-running shell commands)
 	runningProc  *exec.Cmd
 	procSiginted bool
 	ctrlCPending bool
 
-	selActive        bool
-	selAX, selAY     int
-	selEX, selEY     int
-	selX0, selX1     int
+	// mouse text selection state
+	selActive    bool
+	selAX, selAY int
+	selEX, selEY int
+	selX0, selX1 int
 
+	// app mode, editor state, and shared working directory
 	mode    appMode
 	editor  editorState
 	workDir string
 
+	// sidebar search: input, results, and collapsed folder state
 	searchInput      textinput.Model
 	searchCursor     int
 	searchNavMode    bool

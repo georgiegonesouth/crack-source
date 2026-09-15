@@ -14,6 +14,8 @@ import (
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmds []tea.Cmd
 
+	(&m).syncContentVpHeight()
+
 	switch msg := msg.(type) {
 
 	case tea.WindowSizeMsg:
@@ -109,11 +111,43 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.selActive = false
 			}
 		}
-		if m.focus == paneCmd {
+		switch m.focus {
+		case paneCmd:
 			if msg.Button == tea.MouseButtonWheelUp {
 				m.cmdVp.LineUp(3)
 			} else if msg.Button == tea.MouseButtonWheelDown {
 				m.cmdVp.LineDown(3)
+			}
+		case paneContent:
+			if m.mode == modeNotebook {
+				if msg.Button == tea.MouseButtonWheelUp {
+					m.vp.LineUp(3)
+				} else if msg.Button == tea.MouseButtonWheelDown {
+					m.vp.LineDown(3)
+				}
+			} else if m.mode == modeEditor {
+				vpH := max(1, m.bodyH()-2-1)
+				if msg.Button == tea.MouseButtonWheelUp {
+					m.editor.scrollTop = max(0, m.editor.scrollTop-3)
+				} else if msg.Button == tea.MouseButtonWheelDown {
+					m.editor.scrollTop = min(m.editor.scrollTop+3, max(0, len(m.editor.lines)-vpH))
+				}
+			}
+		case paneSidebar, paneSearch:
+			if m.mode == modeEditor {
+				if msg.Button == tea.MouseButtonWheelUp {
+					m.editor.dirOffset = max(0, m.editor.dirOffset-3)
+				} else if msg.Button == tea.MouseButtonWheelDown {
+					m.editor.dirOffset = min(m.editor.dirOffset+3, max(0, len(m.editor.dirEntries)-1))
+				}
+			} else {
+				tree := m.collapsibleTree()
+				maxOff := max(0, len(tree)-(m.bodyH()-2))
+				if msg.Button == tea.MouseButtonWheelUp {
+					m.sidebarOffset = max(0, m.sidebarOffset-3)
+				} else if msg.Button == tea.MouseButtonWheelDown {
+					m.sidebarOffset = min(m.sidebarOffset+3, maxOff)
+				}
 			}
 		}
 

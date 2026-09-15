@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-02T15:24:29",
+  "generated": "2026-09-14T13:46:28",
   "root": "CONTENT/KNOWLEDGE",
   "tree": [
     {
@@ -1155,107 +1155,103 @@
       ]
     },
     {
-      "name": "OS",
+      "name": "LINUX",
       "type": "dir",
-      "path": "CONTENT/KNOWLEDGE/OS",
+      "path": "CONTENT/KNOWLEDGE/LINUX",
       "children": [
         {
-          "name": "LINUX",
+          "name": "BASH",
           "type": "dir",
-          "path": "CONTENT/KNOWLEDGE/OS/LINUX",
+          "path": "CONTENT/KNOWLEDGE/LINUX/BASH",
+          "children": []
+        },
+        {
+          "name": "FILE_OPERATIONS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LINUX/FILE_OPERATIONS",
           "children": [
             {
-              "name": "BASH",
-              "type": "dir",
-              "path": "CONTENT/KNOWLEDGE/OS/LINUX/BASH",
-              "children": []
-            },
-            {
-              "name": "PRIVESC",
-              "type": "dir",
-              "path": "CONTENT/KNOWLEDGE/OS/LINUX/PRIVESC",
-              "children": [
-                {
-                  "name": "checkllist.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/PRIVESC/checkllist.md"
-                }
-              ]
-            },
-            {
-              "name": "UTILITIES",
-              "type": "dir",
-              "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES",
-              "children": [
-                {
-                  "name": "base64.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/base64.md"
-                },
-                {
-                  "name": "find.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/find.md"
-                },
-                {
-                  "name": "grep.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/grep.md"
-                },
-                {
-                  "name": "hashing.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/hashing.md"
-                },
-                {
-                  "name": "wget.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/wget.md"
-                },
-                {
-                  "name": "wordlists.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/LINUX/UTILITIES/wordlists.md"
-                }
-              ]
+              "name": "mount_bitlocker.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/FILE_OPERATIONS/mount_bitlocker.md"
             }
           ]
         },
         {
-          "name": "WINDOWS",
+          "name": "PRIVESC",
           "type": "dir",
-          "path": "CONTENT/KNOWLEDGE/OS/WINDOWS",
+          "path": "CONTENT/KNOWLEDGE/LINUX/PRIVESC",
           "children": [
             {
-              "name": "POWERSHELL",
-              "type": "dir",
-              "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/POWERSHELL",
-              "children": []
-            },
-            {
-              "name": "PRIVESC",
-              "type": "dir",
-              "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/PRIVESC",
-              "children": []
-            },
-            {
-              "name": "UTILITIES",
-              "type": "dir",
-              "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/UTILITIES",
-              "children": [
-                {
-                  "name": "base64.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/UTILITIES/base64.md"
-                },
-                {
-                  "name": "hashing.md",
-                  "type": "file",
-                  "path": "CONTENT/KNOWLEDGE/OS/WINDOWS/UTILITIES/hashing.md"
-                }
-              ]
+              "name": "checkllist.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/PRIVESC/checkllist.md"
             }
           ]
+        },
+        {
+          "name": "UTILITIES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES",
+          "children": [
+            {
+              "name": "base64.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/base64.md"
+            },
+            {
+              "name": "find.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/find.md"
+            },
+            {
+              "name": "grep.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/grep.md"
+            },
+            {
+              "name": "hashing.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/hashing.md"
+            },
+            {
+              "name": "wget.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/wget.md"
+            },
+            {
+              "name": "wordlists.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/wordlists.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PASSWORDS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/PASSWORDS",
+      "children": [
+        {
+          "name": "files_and_archives.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/files_and_archives.md"
+        },
+        {
+          "name": "hashcat.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/hashcat.md"
+        },
+        {
+          "name": "john_the_ripper.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/john_the_ripper.md"
+        },
+        {
+          "name": "wordlists.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/wordlists.md"
         }
       ]
     },
@@ -1268,6 +1264,42 @@
           "name": "reverse_shells.md",
           "type": "file",
           "path": "CONTENT/KNOWLEDGE/SHELLS/reverse_shells.md"
+        }
+      ]
+    },
+    {
+      "name": "WINDOWS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/WINDOWS",
+      "children": [
+        {
+          "name": "POWERSHELL",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/WINDOWS/POWERSHELL",
+          "children": []
+        },
+        {
+          "name": "PRIVESC",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/WINDOWS/PRIVESC",
+          "children": []
+        },
+        {
+          "name": "UTILITIES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/WINDOWS/UTILITIES",
+          "children": [
+            {
+              "name": "base64.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/WINDOWS/UTILITIES/base64.md"
+            },
+            {
+              "name": "hashing.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/WINDOWS/UTILITIES/hashing.md"
+            }
+          ]
         }
       ]
     }

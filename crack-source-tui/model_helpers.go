@@ -1,5 +1,11 @@
 package main
 
+import (
+	"strings"
+
+	"crack-source/internal/parser"
+)
+
 func (m Model) bodyH() int {
 	if m.mode == modeEditor {
 		return m.height - 2 - m.cmdH()
@@ -39,6 +45,32 @@ func (m Model) focusBounds() (x0, y0, x1, y1 int) {
 		return 2, cmdTop + 1, m.width - 3, m.height - 2
 	}
 	return 0, 0, m.width - 1, m.height - 1
+}
+
+// syncContentVpHeight keeps m.vp.Height in sync with the actual lines available
+// for scrolling content (bodyH minus border, pinned H1 title, and status line).
+// renderContent is a value receiver so its m.vp.Height assignment is discarded;
+// call this (pointer receiver) before any vp.LineUp/LineDown/SetContent.
+func (m *Model) syncContentVpHeight() {
+	if m.mode != modeNotebook {
+		return
+	}
+	h := m.bodyH()
+	vpH := h - 2
+	w := m.contentW()
+	for _, b := range m.doc.Blocks {
+		if b.Kind == parser.BlockHeading && b.Level == 1 {
+			vpH -= strings.Count(renderHeading(b, w-2, "", false), "\n")
+			break
+		}
+	}
+	if m.focus == paneContent {
+		hs := headings(m.doc)
+		if len(hs) > 0 || m.codeNavActive || m.codeEditMode || m.localTokenEditActive {
+			vpH--
+		}
+	}
+	m.vp.Height = max(1, vpH)
 }
 
 func (m *Model) scrollToHeading() {

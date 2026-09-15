@@ -7,6 +7,8 @@ import (
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
+	"github.com/yuin/goldmark/extension"
+	extast "github.com/yuin/goldmark/extension/ast"
 	"github.com/yuin/goldmark/text"
 )
 
@@ -17,6 +19,7 @@ const (
 	BlockCode
 	BlockText
 	BlockRule
+	BlockTable
 )
 
 type Block struct {
@@ -25,6 +28,7 @@ type Block struct {
 	Lang        string
 	Text        string
 	TokenOption string
+	Rows        [][]string
 }
 
 type ParsedDoc struct {
@@ -32,7 +36,7 @@ type ParsedDoc struct {
 }
 
 func ParseDoc(src string) ParsedDoc {
-	md := goldmark.New()
+	md := goldmark.New(goldmark.WithExtensions(extension.Table))
 	source := []byte(src)
 	reader := text.NewReader(source)
 	doc := md.Parser().Parse(reader)
@@ -104,6 +108,23 @@ func ParseDoc(src string) ParsedDoc {
 
 		case *ast.ThematicBreak:
 			blocks = append(blocks, Block{Kind: BlockRule})
+			return ast.WalkSkipChildren, nil
+
+		case *extast.Table:
+			// Table → (TableHeader | TableRow)* → TableCell → text
+			var rows [][]string
+			for rowNode := node.FirstChild(); rowNode != nil; rowNode = rowNode.NextSibling() {
+				var cells []string
+				for cell := rowNode.FirstChild(); cell != nil; cell = cell.NextSibling() {
+					var buf bytes.Buffer
+					collectText(cell, source, &buf)
+					cells = append(cells, strings.TrimSpace(buf.String()))
+				}
+				if len(cells) > 0 {
+					rows = append(rows, cells)
+				}
+			}
+			blocks = append(blocks, Block{Kind: BlockTable, Rows: rows})
 			return ast.WalkSkipChildren, nil
 
 		case *ast.List:

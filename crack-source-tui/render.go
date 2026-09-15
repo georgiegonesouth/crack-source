@@ -161,6 +161,76 @@ func renderCodeBlock(b parser.Block, width int, active bool) string {
 	return header + code
 }
 
+func renderTable(rows [][]string, width int) string {
+	if len(rows) == 0 {
+		return ""
+	}
+	cols := len(rows[0])
+	colW := make([]int, cols)
+	for _, row := range rows {
+		for i, cell := range row {
+			if i < cols && len(cell) > colW[i] {
+				colW[i] = len(cell)
+			}
+		}
+	}
+	// truncate columns if total width would exceed pane width
+	// total = sum(colW) + (cols-1)*3 (for " │ ") + 2 padding
+	for {
+		total := 2
+		for _, w := range colW {
+			total += w + 3
+		}
+		if total <= width || cols == 0 {
+			break
+		}
+		// trim widest column by 1
+		max, idx := 0, 0
+		for i, w := range colW {
+			if w > max {
+				max, idx = w, i
+			}
+		}
+		if max == 0 {
+			break
+		}
+		colW[idx]--
+	}
+	sep := styleDim.Render("│")
+	renderRow := func(row []string) string {
+		var sb strings.Builder
+		for i := 0; i < cols; i++ {
+			cell := ""
+			if i < len(row) {
+				cell = row[i]
+			}
+			if len(cell) > colW[i] {
+				cell = cell[:colW[i]]
+			}
+			sb.WriteString(" ")
+			sb.WriteString(cell)
+			sb.WriteString(strings.Repeat(" ", colW[i]-len(cell)))
+			sb.WriteString(" ")
+			if i < cols-1 {
+				sb.WriteString(sep)
+			}
+		}
+		return sb.String()
+	}
+	var sb strings.Builder
+	sb.WriteString(renderRow(rows[0]) + "\n")
+	// separator
+	parts := make([]string, cols)
+	for i, w := range colW {
+		parts[i] = strings.Repeat("─", w+2)
+	}
+	sb.WriteString(styleDim.Render(strings.Join(parts, "┼")) + "\n")
+	for _, row := range rows[1:] {
+		sb.WriteString(renderRow(row) + "\n")
+	}
+	return sb.String()
+}
+
 func renderBlock(b parser.Block, width int) string {
 	switch b.Kind {
 	case parser.BlockHeading:
@@ -172,6 +242,8 @@ func renderBlock(b parser.Block, width int) string {
 	case parser.BlockText:
 		wrapped := wordwrap.String(b.Text, width-2)
 		return wrapped + "\n"
+	case parser.BlockTable:
+		return renderTable(b.Rows, width)
 	}
 	return ""
 }
