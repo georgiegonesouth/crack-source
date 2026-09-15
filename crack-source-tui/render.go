@@ -58,12 +58,13 @@ func headings(doc parser.ParsedDoc) []parser.Block {
 	return out
 }
 
-func renderBlocks(doc parser.ParsedDoc, width int, collapsed map[string]bool, activeHeading string, selectedCode int, editOverride string, skipH1 bool) (string, []int, []parser.Block) {
+func renderBlocks(doc parser.ParsedDoc, width int, collapsed map[string]bool, activeHeading string, selectedCode int, editOverride string, skipH1 bool) (string, []int, []int, []parser.Block) {
 	if width <= 4 {
 		width = 80
 	}
 	var sb strings.Builder
 	var h2Lines []int
+	var codeLines []int
 	var visibleCodes []parser.Block
 	skipBelow := 0
 	lineCount := 0
@@ -104,6 +105,7 @@ func renderBlocks(doc parser.ParsedDoc, width int, collapsed map[string]bool, ac
 		if b.Kind == parser.BlockCode {
 			idx := len(visibleCodes)
 			visibleCodes = append(visibleCodes, b)
+			codeLines = append(codeLines, lineCount)
 			display := b
 			if idx == selectedCode && editOverride != "" {
 				display.Text = editOverride
@@ -117,7 +119,7 @@ func renderBlocks(doc parser.ParsedDoc, width int, collapsed map[string]bool, ac
 		lineCount += strings.Count(chunk, "\n")
 		sb.WriteString(chunk)
 	}
-	return sb.String(), h2Lines, visibleCodes
+	return sb.String(), h2Lines, codeLines, visibleCodes 
 }
 
 func renderHeading(b parser.Block, width int, indicator string, active bool) string {

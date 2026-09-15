@@ -73,6 +73,12 @@ func (m *Model) syncContentVpHeight() {
 	m.vp.Height = max(1, vpH)
 }
 
+func (m *Model) scrollToCode() {
+	if m.codeIdx < len(m.codeLines) {
+		m.vp.SetYOffset(m.codeLines[m.codeIdx] -2)
+	}
+}
+
 func (m *Model) scrollToHeading() {
 	if m.headingIdx < len(m.h2Lines) {
 		m.vp.SetYOffset(m.h2Lines[m.headingIdx])

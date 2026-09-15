@@ -34,6 +34,7 @@ type Model struct {
 	headingIdx    int
 	h2Lines       []int
 	codeIdx       int
+	codeLines	  []int
 	codeNavActive bool
 	visibleCodes  []parser.Block
 

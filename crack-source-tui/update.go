@@ -39,6 +39,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.tipsDoc = msg.tipsDoc
 		m.collapsed = msg.collapsed
 		m.h2Lines = msg.h2Lines
+		m.codeLines = msg.codeLines
 		m.visibleCodes = msg.visibleCodes
 		m.headingIdx = 0
 		m.codeIdx = 0
@@ -54,15 +55,21 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.vp.GotoTop()
 		m.vp.SetContent(msg.rendered)
 		m.scrollToHeading()
+		m.scrollToCode()
 
 	case contentIndexedMsg:
 		m.contentIndex = map[string]string(msg)
 
 	case renderedMsg:
 		m.h2Lines = msg.h2Lines
+		m.codeLines = msg.codeLines
 		m.visibleCodes = msg.visibleCodes
 		m.vp.SetContent(msg.content)
-		m.scrollToHeading()
+		if m.codeNavActive {
+			m.scrollToCode()
+		} else {
+			m.scrollToHeading()
+		}
 
 	case tea.MouseMsg:
 		switch msg.Action {

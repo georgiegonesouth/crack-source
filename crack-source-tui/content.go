@@ -22,6 +22,7 @@ type fileLoadedMsg struct {
 	collapsed    map[string]bool
 	rendered     string
 	h2Lines      []int
+	codeLines    []int
 	visibleCodes []parser.Block
 	tipsRendered string
 }
@@ -30,6 +31,7 @@ type renderedMsg struct {
 	content      string
 	tips         string
 	h2Lines      []int
+	codeLines    []int
 	visibleCodes []parser.Block
 }
 
@@ -88,8 +90,8 @@ func (m Model) openFile(path string) tea.Cmd {
 			}
 		}
 
-		rendered, h2Lines, visibleCodes := renderBlocks(mainDoc, glWidth, collapsed, activeHeading, -1, "", true)
-		tipsRendered, _, _ := renderBlocks(tipsDoc, tipsWidth-2, nil, "", -1, "", false)
+		rendered, h2Lines, codeLines, visibleCodes := renderBlocks(mainDoc, glWidth, collapsed, activeHeading, -1, "", true)
+		tipsRendered, _, _, _ := renderBlocks(tipsDoc, tipsWidth-2, nil, "", -1, "", false)
 		return fileLoadedMsg{
 			raw:          raw,
 			doc:          mainDoc,
@@ -97,6 +99,7 @@ func (m Model) openFile(path string) tea.Cmd {
 			collapsed:    collapsed,
 			rendered:     rendered,
 			h2Lines:      h2Lines,
+			codeLines:    codeLines,
 			visibleCodes: visibleCodes,
 			tipsRendered: tipsRendered,
 		}
@@ -138,9 +141,9 @@ func (m Model) rerenderFile() tea.Cmd {
 		text := substitute(raw, tis, localVals, highlightToken)
 		doc := parser.ParseDoc(text)
 		mainDoc, _ := splitTips(doc)
-		content, h2Lines, visibleCodes := renderBlocks(mainDoc, glWidth, collapsed, activeHeading, selectedCode, editOverride, true)
-		tips, _, _ := renderBlocks(tipsDoc, tipsWidth-2, nil, "", -1, "", false)
-		return renderedMsg{content: content, tips: tips, h2Lines: h2Lines, visibleCodes: visibleCodes}
+		content, h2Lines, codeLines, visibleCodes := renderBlocks(mainDoc, glWidth, collapsed, activeHeading, selectedCode, editOverride, true)
+		tips, _, _, _ := renderBlocks(tipsDoc, tipsWidth-2, nil, "", -1, "", false)
+		return renderedMsg{content: content, tips: tips, h2Lines: h2Lines, codeLines: codeLines, visibleCodes: visibleCodes}
 	}
 }
 

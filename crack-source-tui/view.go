@@ -347,7 +347,7 @@ func (m Model) renderContent() string {
 
 func (m Model) renderTips() string {
 	h := m.bodyH()
-	rendered, _, _ := renderBlocks(m.tipsDoc, tipsWidth-2, nil, "", -1, "", false)
+	rendered, _, _, _ := renderBlocks(m.tipsDoc, tipsWidth-2, nil, "", -1, "", false)
 	return lipgloss.NewStyle().
 		Width(tipsWidth).
 		Height(h).
