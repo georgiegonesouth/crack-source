@@ -21,7 +21,7 @@
   --token-bg:    rgba(255,123,114,0.12);
 
   --sidebar-w:   264px;
-  --header-h:    52px;
+  --header-h:    57px;
 
   --mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
   --ui:   -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -42,16 +42,16 @@ body {
 /* ── HEADER ────────────────────────────────────────────── */
 #header {
   position: fixed;
-  inset: 0 0 auto 0;
-  height: var(--header-h);
+  inset: 5px 0 auto 0;
   background: var(--bg-header);
   border-bottom: 1px solid var(--border);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding: 0 16px;
-  gap: 20px;
+  gap: 12px 20px;
   z-index: 200;
-  flex-shrink: 0;
+  min-height: 52px;
 }
 
 .logo {
@@ -794,46 +794,72 @@ td:hover .use-btn:not(.active) { opacity: 1; }
   border-radius: 0 5px 5px 0;
 }
 
-/* Local token bar */
-.local-token-bar {
+/* Local token fill buttons (hover-revealed in code-actions) */
+.local-fill-btn {
+  background: rgba(22,27,34,0.9);
+  border: 1px solid transparent;
+  border-radius: 5px;
+  color: var(--token-color);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 9px;
+  cursor: pointer;
+  line-height: 1.6;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.local-fill-btn:hover { border-color: var(--token-color); }
+
+.local-fill-btn.active {
+  border-color: var(--token-color);
+  background: var(--token-bg);
+}
+
+.markdown-body pre:has(.local-fill-btn.active) .code-actions { opacity: 1; }
+
+/* Fill bar that appears below the code block on click */
+.local-fill-bar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
   align-items: center;
+  gap: 10px;
   background: var(--bg-header);
   border: 1px solid var(--border-subtle);
-  border-radius: 7px;
-  padding: 10px 14px;
-  margin-bottom: 1.5em;
+  border-left: 2px solid var(--token-color);
+  border-radius: 5px;
+  padding: 7px 12px;
+  margin-top: -0.6em;
+  margin-bottom: 0.6em;
 }
 
-.local-token-bar .input-group label {
+.local-fill-label {
   font-family: var(--mono);
   font-size: 10px;
-  color: var(--accent);
+  color: var(--token-color);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  white-space: nowrap;
+  user-select: none;
 }
 
-.local-token-bar .input-group input {
+.local-fill-bar input {
   font-family: var(--mono);
   font-size: 12px;
   background: var(--bg-app);
   border: 1px solid var(--border-subtle);
   border-radius: 5px;
   color: var(--accent);
-  padding: 5px 9px;
-  width: 180px;
+  padding: 4px 9px;
+  width: 220px;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.local-token-bar .input-group input:focus {
+.local-fill-bar input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(88,166,255,0.15);
 }
 
-.local-token-bar .input-group input::placeholder { color: var(--text-dim); }
+.local-fill-bar input::placeholder { color: var(--text-dim); }
 
 .local-token-group {
   flex-direction: column;

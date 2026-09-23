@@ -1,5 +1,5 @@
 /* ── State ─────────────────────────────────────────────── */
-const TOKENS = ['TARGET_IP', 'PORT', 'LHOST', 'LPORT'];
+const TOKENS = ['TARGET_IP', 'PORT', 'LHOST', 'LPORT', 'USER', 'PASSWORD', 'DOMAIN'];
 
 // Regex per token that matches &lt;TOKEN&gt; even when hljs wraps < and >
 // in separate spans (common for bash/shell redirect syntax).
@@ -52,8 +52,17 @@ async function loadConfig() {
   } catch {}
 }
 
+/* ── Dynamic header height ─────────────────────────────── */
+function trackHeaderHeight() {
+  const header = document.getElementById('header');
+  new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--header-h', `${header.getBoundingClientRect().bottom}px`);
+  }).observe(header);
+}
+
 /* ── Init ──────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
+  trackHeaderHeight();
   loadInputsFromStorage();
   restoreInputFields();
   setupInputListeners();
@@ -501,10 +510,10 @@ function renderMarkdown(text) {
   addOptionUseButtons(wrapper);
   makeCommandTablesInteractive(wrapper);
   const aside = extractTipsBox(wrapper);
-  renderLocalInputBar(wrapper);
   makeH2Collapsible(wrapper);
   addTokenTableButtons(wrapper);
   addSectionUseButtons(wrapper);
+  addLocalTokenFillButtons(wrapper);
 
   $content.innerHTML = '';
   $content.appendChild(wrapper);
@@ -775,37 +784,76 @@ function addSectionUseButtons(wrapper) {
   }
 }
 
-function renderLocalInputBar(wrapper) {
-  const tokens = Object.keys(state.localInputs);
-  if (tokens.length === 0) return;
+function addLocalTokenFillButtons(wrapper) {
+  const localTokens = Object.keys(state.localInputs).filter(t =>
+    !state.localTokenOptions[t]?.length &&
+    !state.localTokenTables?.has(t) &&
+    !state.localTokenSections?.has(t)
+  );
+  if (!localTokens.length) return;
 
-  const bar = document.createElement('div');
-  bar.className = 'local-token-bar';
+  // track open fill bars per token so we can sync values across blocks
+  const openBars = {};
 
-  tokens
-    .filter(token => !(state.localTokenOptions[token]?.length) && !state.localTokenTables?.has(token) && !state.localTokenSections?.has(token))
-    .forEach(token => {
-      const group = document.createElement('div');
-      group.className = 'input-group';
+  wrapper.querySelectorAll('pre code').forEach(codeEl => {
+    const origText = codeEl.dataset.origText || '';
+    const blockTokens = localTokens.filter(t => origText.includes(`<${t}>`));
+    if (!blockTokens.length) return;
 
-      const label = document.createElement('label');
-      label.textContent = token.replace(/_/g, ' ');
+    const preEl = codeEl.closest('pre');
+    const actions = preEl.querySelector('.code-actions');
+    if (!actions) return;
 
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.placeholder = `<${token}>`;
-      input.value = state.localInputs[token];
-      input.addEventListener('input', () => {
-        state.localInputs[token] = input.value.trim();
-        applySubstitution();
+    blockTokens.forEach(token => {
+      const fillBtn = document.createElement('button');
+      fillBtn.className = 'local-fill-btn';
+      fillBtn.textContent = token.replace(/_/g, ' ');
+      fillBtn.dataset.token = token;
+
+      fillBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (fillBtn.classList.contains('active')) {
+          const bar = preEl._fillBars?.[token];
+          if (bar) { bar.remove(); delete preEl._fillBars[token]; }
+          fillBtn.classList.remove('active');
+          return;
+        }
+
+        const bar = document.createElement('div');
+        bar.className = 'local-fill-bar';
+        bar.dataset.token = token;
+
+        const label = document.createElement('span');
+        label.className = 'local-fill-label';
+        label.textContent = token.replace(/_/g, ' ');
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = `<${token}>`;
+        input.value = state.localInputs[token] || '';
+        input.addEventListener('input', () => {
+          state.localInputs[token] = input.value.trim();
+          // sync other open fill bars for this token
+          (openBars[token] || []).forEach(i => { if (i !== input) i.value = state.localInputs[token]; });
+          applySubstitution();
+        });
+
+        if (!openBars[token]) openBars[token] = [];
+        openBars[token].push(input);
+        bar.appendChild(label);
+        bar.appendChild(input);
+        preEl.insertAdjacentElement('afterend', bar);
+
+        if (!preEl._fillBars) preEl._fillBars = {};
+        preEl._fillBars[token] = bar;
+
+        input.focus();
+        fillBtn.classList.add('active');
       });
 
-      group.appendChild(label);
-      group.appendChild(input);
-      bar.appendChild(group);
+      actions.insertBefore(fillBtn, actions.firstChild);
     });
-
-  wrapper.insertBefore(bar, wrapper.firstChild);
+  });
 }
 
 /* ── Tips box ──────────────────────────────────────────── */

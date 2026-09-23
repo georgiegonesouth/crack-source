@@ -4,9 +4,17 @@
 
 <!-- token-exclude: PS -->
 
-## Impacket mssqlclient.py
+## Impacket-Mssqlclient
 
-    python3 mssqlclient.py <USER>@<TARGET_IP> -windows-auth
+    impacket-mssqlclient <USER>@<TARGET_IP> -windows-auth
+
+## Impacket-Mssqlclient - Local Auth
+
+    impacket-mssqlclient <USER>@<TARGET_IP>
+
+## NXC - Local Auth
+
+    nxc mssql <TARGET_IP> -u <USER> -p <PASSWORD> --local-auth
 
 ## MSSQL Shell commands
 
