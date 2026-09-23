@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-14T13:46:28",
+  "generated": "2026-09-22T08:47:18",
   "root": "CONTENT/KNOWLEDGE",
   "tree": [
     {
@@ -114,6 +114,11 @@
               "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/ipmi.md"
             },
             {
+              "name": "ldap.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/ldap.md"
+            },
+            {
               "name": "mssql.md",
               "type": "file",
               "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/mssql.md"
@@ -137,6 +142,11 @@
               "name": "rdp.md",
               "type": "file",
               "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/rdp.md"
+            },
+            {
+              "name": "rpc.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ENUMERATION/SERVICES/rpc.md"
             },
             {
               "name": "rsync.md",
@@ -1225,6 +1235,18 @@
               "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/wordlists.md"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "MACHINE_FLOW",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/MACHINE_FLOW",
+      "children": [
+        {
+          "name": "redelegate.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/MACHINE_FLOW/redelegate.md"
         }
       ]
     },
