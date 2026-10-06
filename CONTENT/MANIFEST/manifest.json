@@ -1,0 +1,696 @@
+{
+  "generated": "2026-10-04T16:46:04",
+  "root": "CONTENT/KNOWLEDGE",
+  "tree": [
+    {
+      "name": "ACTIVE_DIRECTORY",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY",
+      "children": [
+        {
+          "name": "ATTACKS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS",
+          "children": [
+            {
+              "name": "adcs_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/adcs_attacks.md"
+            },
+            {
+              "name": "attack_cheatsheet.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/attack_cheatsheet.md"
+            },
+            {
+              "name": "credential_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/credential_attacks.md"
+            },
+            {
+              "name": "delegation_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/delegation_attacks.md"
+            },
+            {
+              "name": "gpo_abuse.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/gpo_abuse.md"
+            },
+            {
+              "name": "lateral_movement.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/lateral_movement.md"
+            },
+            {
+              "name": "post_exploitation.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/post_exploitation.md"
+            },
+            {
+              "name": "trust_attacks.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ATTACKS/trust_attacks.md"
+            }
+          ]
+        },
+        {
+          "name": "ENUMERATION",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ENUMERATION",
+          "children": [
+            {
+              "name": "bloodhound_enumeration.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/ACTIVE_DIRECTORY/ENUMERATION/bloodhound_enumeration.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ENUMERATION_TOOLS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS",
+      "children": [
+        {
+          "name": "crt.sh.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/crt.sh.md"
+        },
+        {
+          "name": "curl.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/curl.md"
+        },
+        {
+          "name": "dig.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/dig.md"
+        },
+        {
+          "name": "ffuf.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/ffuf.md"
+        },
+        {
+          "name": "finalrecon.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/finalrecon.md"
+        },
+        {
+          "name": "gobuster.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/gobuster.md"
+        },
+        {
+          "name": "google_dorks.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/google_dorks.md"
+        },
+        {
+          "name": "netcat.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/netcat.md"
+        },
+        {
+          "name": "nikto.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/nikto.md"
+        },
+        {
+          "name": "nmap.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/nmap.md"
+        },
+        {
+          "name": "nmap_builder.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/nmap_builder.md"
+        },
+        {
+          "name": "passive_recon.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/passive_recon.md"
+        },
+        {
+          "name": "reconspider.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/reconspider.md"
+        },
+        {
+          "name": "shodan.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/shodan.md"
+        },
+        {
+          "name": "tcpdump.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/tcpdump.md"
+        },
+        {
+          "name": "theHarvester.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/theHarvester.md"
+        },
+        {
+          "name": "wafw00f.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/wafw00f.md"
+        },
+        {
+          "name": "whois.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/ENUMERATION_TOOLS/whois.md"
+        }
+      ]
+    },
+    {
+      "name": "FILE_TRANSFER",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER",
+      "children": [
+        {
+          "name": "CODE",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/CODE",
+          "children": [
+            {
+              "name": "code_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/CODE/code_file_transfer.md"
+            }
+          ]
+        },
+        {
+          "name": "LINUX",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LINUX",
+          "children": [
+            {
+              "name": "linux_file_tranfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LINUX/linux_file_tranfer.md"
+            }
+          ]
+        },
+        {
+          "name": "LOLBINS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LOLBINS",
+          "children": [
+            {
+              "name": "lolbins_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/LOLBINS/lolbins_file_transfer.md"
+            }
+          ]
+        },
+        {
+          "name": "MISC",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/MISC",
+          "children": [
+            {
+              "name": "misc_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/MISC/misc_file_transfer.md"
+            }
+          ]
+        },
+        {
+          "name": "WINDOWS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/WINDOWS",
+          "children": [
+            {
+              "name": "prepping_linux.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/WINDOWS/prepping_linux.md"
+            },
+            {
+              "name": "windows_file_transfer.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/FILE_TRANSFER/WINDOWS/windows_file_transfer.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LIBRARY",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/LIBRARY",
+      "children": [
+        {
+          "name": "ENUMERATION",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LIBRARY/ENUMERATION",
+          "children": [
+            {
+              "name": "concepts.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/ENUMERATION/concepts.md"
+            }
+          ]
+        },
+        {
+          "name": "KNOWLEDGE_BASES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES",
+          "children": [
+            {
+              "name": "CPTS-CHEATSHEETS",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS",
+              "children": [
+                {
+                  "name": "File Transfers - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/File Transfers - cheatsheet.pdf"
+                },
+                {
+                  "name": "Footprinting.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Footprinting.pdf"
+                },
+                {
+                  "name": "Getting Started.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Getting Started.pdf"
+                },
+                {
+                  "name": "Login Brute Forcing - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Login Brute Forcing - cheatsheet.pdf"
+                },
+                {
+                  "name": "Network Enumeration with Nmap.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Network Enumeration with Nmap.pdf"
+                },
+                {
+                  "name": "Password Attacks - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Password Attacks - cheatsheet.pdf"
+                },
+                {
+                  "name": "Shells & Payloads - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Shells & Payloads - cheatsheet.pdf"
+                },
+                {
+                  "name": "SQL Injection Fundamentals - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/SQL Injection Fundamentals - cheatsheet.pdf"
+                },
+                {
+                  "name": "SQLMap Essentials - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/SQLMap Essentials - cheatsheet.pdf"
+                },
+                {
+                  "name": "Using the Metasploit Framework - cheatsheet.pdf",
+                  "type": "file",
+                  "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/CPTS-CHEATSHEETS/Using the Metasploit Framework - cheatsheet.pdf"
+                }
+              ]
+            },
+            {
+              "name": "htb-writeups",
+              "type": "dir",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/htb-writeups",
+              "children": []
+            },
+            {
+              "name": " websites.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/KNOWLEDGE_BASES/ websites.md"
+            }
+          ]
+        },
+        {
+          "name": "SERVICES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES",
+          "children": [
+            {
+              "name": "dns.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/dns.md"
+            },
+            {
+              "name": "ftp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/ftp.md"
+            },
+            {
+              "name": "imap_pop3.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/imap_pop3.md"
+            },
+            {
+              "name": "ipmi.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/ipmi.md"
+            },
+            {
+              "name": "mssql.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/mssql.md"
+            },
+            {
+              "name": "mysql.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/mysql.md"
+            },
+            {
+              "name": "nfs.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/nfs.md"
+            },
+            {
+              "name": "oracle_tns.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/oracle_tns.md"
+            },
+            {
+              "name": "rdp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/rdp.md"
+            },
+            {
+              "name": "rsync.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/rsync.md"
+            },
+            {
+              "name": "smb.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/smb.md"
+            },
+            {
+              "name": "smtp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/smtp.md"
+            },
+            {
+              "name": "snmp.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/snmp.md"
+            },
+            {
+              "name": "ssh.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/ssh.md"
+            },
+            {
+              "name": "winrm.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/winrm.md"
+            },
+            {
+              "name": "wmi.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LIBRARY/SERVICES/wmi.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LINUX",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/LINUX",
+      "children": [
+        {
+          "name": "FILE_OPERATIONS",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LINUX/FILE_OPERATIONS",
+          "children": [
+            {
+              "name": "mount_bitlocker.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/FILE_OPERATIONS/mount_bitlocker.md"
+            }
+          ]
+        },
+        {
+          "name": "PRIVESC",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LINUX/PRIVESC",
+          "children": [
+            {
+              "name": "checkllist.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/PRIVESC/checkllist.md"
+            }
+          ]
+        },
+        {
+          "name": "UTILITIES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES",
+          "children": [
+            {
+              "name": "base64.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/base64.md"
+            },
+            {
+              "name": "find.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/find.md"
+            },
+            {
+              "name": "grep.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/grep.md"
+            },
+            {
+              "name": "hashing.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/hashing.md"
+            },
+            {
+              "name": "wget.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/wget.md"
+            },
+            {
+              "name": "wordlists.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/LINUX/UTILITIES/wordlists.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MACHINE_FLOW",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/MACHINE_FLOW",
+      "children": [
+        {
+          "name": "redelegate.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/MACHINE_FLOW/redelegate.md"
+        }
+      ]
+    },
+    {
+      "name": "PASSWORDS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/PASSWORDS",
+      "children": [
+        {
+          "name": "files_and_archives.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/files_and_archives.md"
+        },
+        {
+          "name": "hashcat.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/hashcat.md"
+        },
+        {
+          "name": "hydra.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/hydra.md"
+        },
+        {
+          "name": "john_the_ripper.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/john_the_ripper.md"
+        },
+        {
+          "name": "medusa.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/medusa.md"
+        },
+        {
+          "name": "wordlists.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PASSWORDS/wordlists.md"
+        }
+      ]
+    },
+    {
+      "name": "PYTHON",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/PYTHON",
+      "children": [
+        {
+          "name": "enum_domusers.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/PYTHON/enum_domusers.md"
+        }
+      ]
+    },
+    {
+      "name": "SERVICES",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/SERVICES",
+      "children": [
+        {
+          "name": "dns.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/dns.md"
+        },
+        {
+          "name": "ftp.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/ftp.md"
+        },
+        {
+          "name": "imap_pop3.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/imap_pop3.md"
+        },
+        {
+          "name": "ipmi.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/ipmi.md"
+        },
+        {
+          "name": "ldap.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/ldap.md"
+        },
+        {
+          "name": "mssql.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/mssql.md"
+        },
+        {
+          "name": "mysql.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/mysql.md"
+        },
+        {
+          "name": "nfs.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/nfs.md"
+        },
+        {
+          "name": "oracle_tns.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/oracle_tns.md"
+        },
+        {
+          "name": "rdp.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/rdp.md"
+        },
+        {
+          "name": "rpc.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/rpc.md"
+        },
+        {
+          "name": "rsync.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/rsync.md"
+        },
+        {
+          "name": "smb.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/smb.md"
+        },
+        {
+          "name": "smtp.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/smtp.md"
+        },
+        {
+          "name": "snmp.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/snmp.md"
+        },
+        {
+          "name": "ssh.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/ssh.md"
+        },
+        {
+          "name": "winrm.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/winrm.md"
+        },
+        {
+          "name": "wmi.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SERVICES/wmi.md"
+        }
+      ]
+    },
+    {
+      "name": "SHELLS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/SHELLS",
+      "children": [
+        {
+          "name": "reverse_shells.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SHELLS/reverse_shells.md"
+        }
+      ]
+    },
+    {
+      "name": "SQL_INJECTION",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/SQL_INJECTION",
+      "children": [
+        {
+          "name": "sqlmap.md",
+          "type": "file",
+          "path": "CONTENT/KNOWLEDGE/SQL_INJECTION/sqlmap.md"
+        }
+      ]
+    },
+    {
+      "name": "WINDOWS",
+      "type": "dir",
+      "path": "CONTENT/KNOWLEDGE/WINDOWS",
+      "children": [
+        {
+          "name": "UTILITIES",
+          "type": "dir",
+          "path": "CONTENT/KNOWLEDGE/WINDOWS/UTILITIES",
+          "children": [
+            {
+              "name": "base64.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/WINDOWS/UTILITIES/base64.md"
+            },
+            {
+              "name": "hashing.md",
+              "type": "file",
+              "path": "CONTENT/KNOWLEDGE/WINDOWS/UTILITIES/hashing.md"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
